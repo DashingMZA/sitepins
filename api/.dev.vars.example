@@ -1,0 +1,33 @@
+# Local Worker dev vars for the Sitepins API Worker.
+# Copy to `.dev.vars` for `wrangler dev` (NEVER commit `.dev.vars` and
+# NEVER put real secrets in this file — placeholders only).
+#
+# Production secrets are set with `wrangler secret put <NAME>` (see
+# docs/cloudflare-deploy.md). Non-secret vars live in wrangler.jsonc [vars].
+#
+# --- Required (wrangler secret put) ---
+# MONGO_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/sitepins?retryWrites=true&w=majority
+# BETTER_AUTH_SECRET=<openssl rand -base64 32>
+# JWT_SECRET=<openssl rand -base64 32>
+# INTERNAL_API_SECRET=<openssl rand -base64 32 — must match app/.dev.vars>
+# SANDBOX_ENCRYPTION_KEY=<openssl rand -hex 32>
+# S3_ACCESS_KEY=<R2 API token access key id>
+# S3_SECRET_KEY=<R2 API token secret access key>
+# S3_BUCKET_NAME=sitepins-media
+# GITHUB_CLIENT_ID=
+# GITHUB_CLIENT_SECRET=
+# GOOGLE_CLIENT_ID=
+# GOOGLE_CLIENT_SECRET=
+# RESEND_API_KEY=<Resend API key — required when MAIL_PROVIDER=resend>
+# REOON_API_KEY=
+#
+# --- Vars already set in wrangler.jsonc (override here only for local dev) ---
+# NODE_ENV=development
+# BASE_URL=http://localhost:4000
+# APP_URL=http://localhost:3000
+# CORS_ORIGINS=http://localhost:3000
+# COOKIE_DOMAIN=
+# S3_ENDPOINT=https://<account-id>.r2.cloudflarestorage.com
+# S3_REGION=auto
+# MAIL_PROVIDER=resend
+# REQUIRE_EMAIL_VERIFICATION=false

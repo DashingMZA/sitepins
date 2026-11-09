@@ -1,24 +1,25 @@
 import brand from "@/config/brand";
 import config from "@/config/variables";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { customSession } from "better-auth/plugins";
-import { client, db } from "./auth";
+import { getAuthClient, getAuthDb } from "./auth";
 import { allowedOrigins } from "./config/cors-options";
 import { reconcilePendingInvites } from "./lib/pendingInvites";
 import { createUserId } from "./lib/userIdGenerator";
 import { logger } from "./lib/logger";
+import { resolveEnv } from "./lib/workerEnv";
 import { organizationService } from "./modules/organization/organization.service";
 
 const createAuthDemoInstance = () =>
   betterAuth({
     basePath: "/api/v1/demo/auth",
-    baseURL: process.env.BASE_URL,
+    baseURL: resolveEnv("BASE_URL"),
     secret: config.better_auth_secret,
     trustedOrigins: allowedOrigins,
-    database: mongodbAdapter(db, {
-      client,
+    database: mongodbAdapter(getAuthDb(), {
+      client: getAuthClient(),
       usePlural: true,
     }),
     session: {
@@ -32,8 +33,8 @@ const createAuthDemoInstance = () =>
     appName: `${brand.name} Demo`,
     rateLimit: {
       // enabled: true, // enabled only if you want to test it in development
-      window: parseInt(process.env.RATELIMIT_WINDOW || "10"), // seconds
-      max: parseInt(process.env.RATELIMIT_MAX || "100"), // max requests / window
+      window: parseInt(resolveEnv("RATELIMIT_WINDOW") || "10"), // seconds
+      max: parseInt(resolveEnv("RATELIMIT_MAX") || "100"), // max requests / window
     },
     databaseHooks: {
       user: {
@@ -123,15 +124,15 @@ const createAuthDemoInstance = () =>
       },
       cookiePrefix: brand.demo_cookie_prefix,
       crossSubDomainCookies: {
-        enabled: process.env.NODE_ENV === "production",
+        enabled: resolveEnv("NODE_ENV") === "production",
         domain:
-          process.env.NODE_ENV === "production"
-            ? process.env.DEMO_COOKIE_DOMAIN || ".sitepins.com"
+          resolveEnv("NODE_ENV") === "production"
+            ? resolveEnv("DEMO_COOKIE_DOMAIN") || ".sitepins.com"
             : undefined,
       },
       defaultCookieAttributes: {
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-        secure: process.env.NODE_ENV === "production",
+        sameSite: resolveEnv("NODE_ENV") === "production" ? "none" : "lax",
+        secure: resolveEnv("NODE_ENV") === "production",
         path: "/",
       },
     },

@@ -1,8 +1,10 @@
+import { resolveEnv } from "@/lib/workerEnv";
 import { CorsOptions } from "cors";
 
 // Origins allowed in production. Configure via CORS_ORIGINS as a
 // comma-separated list, e.g. CORS_ORIGINS="https://cms.example.com"
-const baseProductionOrigins: string[] = (process.env.CORS_ORIGINS || "")
+// (Cloudflare: CORS_ORIGINS=https://csofts.tech, set as a Worker var).
+const baseProductionOrigins: string[] = (resolveEnv("CORS_ORIGINS") || "")
   .split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);
@@ -13,7 +15,7 @@ const baseLocalOrigins: string[] = [
 ];
 
 export const allowedOrigins: string[] =
-  process.env.NODE_ENV === "development"
+  resolveEnv("NODE_ENV") === "development"
     ? baseLocalOrigins
     : baseProductionOrigins;
 

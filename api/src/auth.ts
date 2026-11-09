@@ -1,6 +1,6 @@
 import brand from "@/config/brand";
 import config from "@/config/variables";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { APIError, createAuthMiddleware } from "better-auth/api";
@@ -13,6 +13,7 @@ import { isUploadKey } from "./lib/uploadFolders";
 import { verifyEmailWithReoon } from "./lib/emailVerifier";
 import { emitAuthEvent, emitUserRegistration } from "./lib/lifecycleHooks";
 import { logger } from "./lib/logger";
+import { resolveEnv } from "./lib/workerEnv";
 import { sendMail } from "./lib/mailer";
 import { reconcilePendingInvites } from "./lib/pendingInvites";
 import { escapeRegex } from "./lib/regexEscape";
@@ -29,19 +30,47 @@ const OTP_VALIDITY = 60 * 15; // 15 minutes
 const SESSION_EXPIRES_IN = 60 * 60 * 24 * 7; // 7 days
 const MAX_ALLOWED_ATTEMPTS = 3; // max wrong attempts before invalidating the otp
 
-const authConnection = mongoose.createConnection(process.env.MONGO_URI!);
+// Lazy auth-database connection.
+//
+// Previously this file opened a second Mongoose connection at import time
+// and called `process.exit(1)` on error — both fatal on a Cloudflare Worker,
+// where imports run per isolate and there is no process to exit. The
+// connection is now created on first use (better-auth instances are already
+// created lazily via `getAuth()`), inside the same Durable Object / isolate
+// that serves the request, so the connection is held for the lifetime of
+// that DO instead of being opened at module load. No `process.exit()` anywhere
+// on this path: a failed connect surfaces as a thrown error to the caller.
+let authConnection: mongoose.Connection | null = null;
 
-authConnection.on("error", (err) => {
-  logger.error("Failed to connect Mongoose client for auth", err);
-  process.exit(1);
-});
+export function getAuthConnection(): mongoose.Connection {
+  if (!authConnection) {
+    const uri = resolveEnv("MONGO_URI");
+    if (!uri) {
+      throw new Error(
+        "MONGO_URI is not set (api/.env locally, or `wrangler secret put MONGO_URI` on Cloudflare Workers)",
+      );
+    }
+    authConnection = mongoose.createConnection(uri, { maxPoolSize: 1 });
+    authConnection.on("error", (err) => {
+      logger.error("Failed to connect Mongoose client for auth", err);
+    });
+    authConnection.once("open", () => {
+      logger.info("[+] Mongoose connection established for auth adapter");
+    });
+  }
+  return authConnection;
+}
 
-authConnection.once("open", () => {
-  logger.info("[+] Mongoose connection established for auth adapter");
-});
+/** The native MongoClient behind the auth connection (lazy). */
+export function getAuthClient() {
+  return getAuthConnection().getClient();
+}
 
-export const client = authConnection.getClient();
-export const db = client.db(authConnection.name); // use MongoClient to obtain db regardless of readyState
+/** The `Db` handle better-auth's MongoDB adapter reads/writes (lazy). */
+export function getAuthDb() {
+  const connection = getAuthConnection();
+  return getAuthClient().db(connection.name);
+}
 
 // Helper function to check if image is from our bucket
 // Handles both S3 keys (e.g., "<prefix>/users/123.png") and full URLs
@@ -89,7 +118,7 @@ const getS3Key = (imageValue: string): string | null => {
 if (!config.better_auth_secret) {
   const secretWarning =
     "BETTER_AUTH_SECRET is not configured. Set it in your environment variables.";
-  if (process.env.NODE_ENV === "production") {
+  if (resolveEnv("NODE_ENV") === "production") {
     throw new Error(secretWarning);
   } else {
     logger.warn(secretWarning);
@@ -101,11 +130,11 @@ const appUrl = getAppUrl();
 const createAuthInstance = () =>
   betterAuth({
     basePath: "/api/v1/auth",
-    baseURL: process.env.BASE_URL,
+    baseURL: resolveEnv("BASE_URL"),
     secret: config.better_auth_secret,
     trustedOrigins: allowedOrigins,
-    database: mongodbAdapter(db, {
-      client,
+    database: mongodbAdapter(getAuthDb(), {
+      client: getAuthClient(),
       usePlural: true,
       debugLogs: false,
     }),
@@ -120,8 +149,8 @@ const createAuthInstance = () =>
     appName: brand.name,
     rateLimit: {
       // enabled: true, // enabled only if you want to test it in development
-      window: parseInt(process.env.RATELIMIT_WINDOW || "10"), // seconds
-      max: parseInt(process.env.RATELIMIT_MAX || "100"), // max requests / window
+      window: parseInt(resolveEnv("RATELIMIT_WINDOW") || "10"), // seconds
+      max: parseInt(resolveEnv("RATELIMIT_MAX") || "100"), // max requests / window
     },
     ...(appUrl
       ? {
@@ -301,7 +330,7 @@ const createAuthInstance = () =>
     },
     hooks: {
       before: createAuthMiddleware(async (ctx) => {
-        if (process.env.NODE_ENV !== "production") {
+        if (resolveEnv("NODE_ENV") !== "production") {
           ctx.context.skipOriginCheck = true;
         }
         if (ctx.path === "/sign-up/email") {
@@ -451,7 +480,7 @@ const createAuthInstance = () =>
         // Lax is correct and works over plain http in local/self-hosted setups.
         sameSite: config.cookie_domain ? "none" : "lax",
         secure:
-          process.env.NODE_ENV === "production" ||
+          resolveEnv("NODE_ENV") === "production" ||
           Boolean(config.cookie_domain),
         path: "/",
       },
@@ -514,10 +543,10 @@ const createAuthInstance = () =>
     },
     socialProviders: {
       github: {
-        clientId: process.env.GITHUB_CLIENT_ID as string,
-        clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+        clientId: resolveEnv("GITHUB_CLIENT_ID") as string,
+        clientSecret: resolveEnv("GITHUB_CLIENT_SECRET") as string,
         disableImplicitSignUp: false,
-        redirectURI: `${process.env.BASE_URL}/api/v1/auth/callback/github`,
+        redirectURI: `${resolveEnv("BASE_URL")}/api/v1/auth/callback/github`,
         // Don't override state - let better-auth handle it
         mapProfileToUser: (profile) => {
           return {
@@ -527,13 +556,13 @@ const createAuthInstance = () =>
         },
       },
       google: {
-        clientId: process.env.GOOGLE_CLIENT_ID as string,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+        clientId: resolveEnv("GOOGLE_CLIENT_ID") as string,
+        clientSecret: resolveEnv("GOOGLE_CLIENT_SECRET") as string,
         disableImplicitSignUp: false, // auto signup when when signin with google
         accessType: "offline", // To always get a refresh token
         prompt: "select_account consent",
         // scope: [""], // custom scopes
-        redirectURI: `${process.env.BASE_URL}/api/v1/auth/callback/google`,
+        redirectURI: `${resolveEnv("BASE_URL")}/api/v1/auth/callback/google`,
         // Don't override state - let better-auth handle it
         mapProfileToUser: (profile) => {
           return {

@@ -1,6 +1,7 @@
 import brand from "@/config/brand";
 import config from "@/config/variables";
 import { logger } from "@/lib/logger";
+import { isWorkerRuntime } from "@/lib/workerEnv";
 
 // ---------------------------------------------------------------------------
 // Provider-agnostic transactional mailer.
@@ -10,11 +11,15 @@ import { logger } from "@/lib/logger";
 //
 //   - custom  : registered via setMailSender
 //   - smtp    : renders a built-in HTML email and sends via nodemailer
+//               (Node only — Workers cannot open raw SMTP TCP connections)
+//   - resend  : sends via the Resend HTTP API (https://resend.com). This is
+//               the Cloudflare Worker provider: plain `fetch`, no sockets.
 //   - console : logs the message (incl. OTP / reset link) to stdout so a
 //               self-hoster can test or complete signup with no SMTP server
 //
-// Provider is chosen by MAIL_PROVIDER, or auto-detected: SMTP if SMTP_HOST is
-// set, else console. Extensions can register a custom sender via setMailSender.
+// Provider is chosen by MAIL_PROVIDER, or auto-detected: Resend if
+// RESEND_API_KEY is set, SMTP if SMTP_HOST is set, else console. Extensions
+// can register a custom sender via setMailSender.
 // ---------------------------------------------------------------------------
 
 export type MailKind =
@@ -37,7 +42,7 @@ export type TMailBrand = {
   logo_url?: string;
 };
 
-type MailProvider = "smtp" | "console";
+type MailProvider = "smtp" | "resend" | "console";
 
 export type CustomMailSender = (opts: {
   to: string;
@@ -57,11 +62,56 @@ const FROM_EMAIL = config.mail_from_email || "noreply@example.com";
 
 function resolveProvider(): MailProvider {
   const explicit = config.mail_provider as MailProvider | undefined;
-  if (explicit === "smtp" || explicit === "console") {
+  if (explicit === "smtp" || explicit === "resend" || explicit === "console") {
     return explicit;
   }
+  if (config.resend_api_key) return "resend";
   if (config.smtp_host) return "smtp";
   return "console";
+}
+
+/**
+ * Resend HTTP API delivery (Worker-compatible: plain fetch, no TCP).
+ * Throws on a non-2xx response so OTP / password-reset callers surface the
+ * failure instead of silently dropping the email.
+ */
+async function sendViaResend({
+  to,
+  subject,
+  html,
+  fromName,
+}: {
+  to: string;
+  subject: string;
+  html: string;
+  fromName: string;
+}): Promise<void> {
+  const apiKey = config.resend_api_key;
+  if (!apiKey) {
+    throw new Error(
+      "MAIL_PROVIDER=resend but RESEND_API_KEY is not set " +
+        "(or set MAIL_PROVIDER=console and REQUIRE_EMAIL_VERIFICATION=false for first launch)",
+    );
+  }
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: `${fromName} <${FROM_EMAIL}>`,
+      to: [to],
+      subject,
+      html,
+    }),
+  });
+  if (!res.ok) {
+    const body = await res.text().catch(() => "");
+    throw new Error(
+      `Resend delivery failed (${res.status}): ${body.slice(0, 300)}`,
+    );
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -155,9 +205,16 @@ function render(
 }
 
 // nodemailer transport is created lazily so the dependency is only touched
-// when SMTP is actually the active provider.
+// when SMTP is actually the active provider. SMTP is Node-only: on a Worker
+// use MAIL_PROVIDER=resend instead (see `sendViaResend`).
 let smtpTransport: unknown;
 async function getSmtpTransport() {
+  if (isWorkerRuntime()) {
+    throw new Error(
+      "SMTP is not available on Cloudflare Workers (no raw TCP). " +
+        "Set MAIL_PROVIDER=resend with RESEND_API_KEY, or MAIL_PROVIDER=console.",
+    );
+  }
   if (!smtpTransport) {
     const nodemailer = await import("nodemailer");
     smtpTransport = nodemailer.createTransport({
@@ -211,6 +268,16 @@ export async function sendMail({
   const provider = resolveProvider();
   const { subject, html } = render(kind, params, mailBrand);
 
+  if (provider === "resend") {
+    await sendViaResend({
+      to,
+      subject,
+      html,
+      fromName: mailBrand?.name || DEFAULT_FROM_NAME,
+    });
+    return;
+  }
+
   if (provider === "smtp") {
     const transport = await getSmtpTransport();
     await transport.sendMail({
@@ -224,7 +291,7 @@ export async function sendMail({
 
   // console provider — no external mail configured.
   logger.warn(
-    `[mailer] No mail provider configured (MAIL_PROVIDER/SMTP_HOST unset).\n` +
+    `[mailer] No mail provider configured (MAIL_PROVIDER/RESEND_API_KEY/SMTP_HOST unset).\n` +
       `[mailer] Would send "${kind}" to ${to} — "${subject}"` +
       (kind === "otp" ? `\n[mailer] OTP: ${String(params.otp ?? "")}` : "") +
       (kind === "password_reset"

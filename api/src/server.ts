@@ -133,15 +133,23 @@ export async function startServer() {
       if (!clientConnection) return;
 
       ws.on("message", (data: RawData) => {
+        // RawData = Buffer | ArrayBuffer | Buffer[]. `Buffer.isBuffer`
+        // does not narrow the union under @types/node 26 / TS 6, so
+        // discriminate by the other two members first; what remains is
+        // a Buffer. (Pre-existing code; only the conversion was
+        // re-typed so `tsc` passes — the bytes passed are unchanged.)
         let uint8Array: Uint8Array;
-        if (Buffer.isBuffer(data)) {
-          uint8Array = new Uint8Array(data);
-        } else if (data instanceof ArrayBuffer) {
+        if (data instanceof ArrayBuffer) {
           uint8Array = new Uint8Array(data);
         } else if (Array.isArray(data)) {
           uint8Array = new Uint8Array(Buffer.concat(data));
         } else {
-          uint8Array = new Uint8Array();
+          const buf = data as Buffer;
+          uint8Array = new Uint8Array(
+            buf.buffer,
+            buf.byteOffset,
+            buf.byteLength,
+          );
         }
         clientConnection.handleMessage(uint8Array);
       });

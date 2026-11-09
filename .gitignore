@@ -11,6 +11,10 @@ out/
 .env
 .env.*
 !.env.example
+.dev.vars
+
+# cloudflare
+.open-next/
 
 # misc
 .DS_Store
