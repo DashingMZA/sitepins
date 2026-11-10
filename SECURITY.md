@@ -4,7 +4,7 @@
 
 Please do **not** report security vulnerabilities through public GitHub issues.
 
-Email **hi.sitepins@gmail.com** with:
+Email **hi.sitepins@csofts.tech** with:
 
 - A description of the vulnerability and its impact
 - Steps to reproduce (proof of concept if possible)
