@@ -22,7 +22,7 @@ Examples of unacceptable behavior:
 
 ## Enforcement
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the maintainers at **hi.sitepins@gmail.com**. All complaints will be reviewed and investigated promptly and fairly. Maintainers are obligated to respect the privacy and security of the reporter.
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the maintainers at **hi.sitepins@csofts.tech**. All complaints will be reviewed and investigated promptly and fairly. Maintainers are obligated to respect the privacy and security of the reporter.
 
 ## Attribution
 
