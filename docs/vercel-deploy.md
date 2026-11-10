@@ -1,10 +1,14 @@
 # Sitepins on Vercel — 2 separate projects (api + app)
 
-> Status: setup documented and verified locally; **no Vercel projects
-> exist yet and nothing is deployed**. The Vercel dashboard side
-> (import both projects, env vars, first deploys) still has to happen
-> — see §4. Companion doc for the Cloudflare setup:
-> `docs/cloudflare-deploy.md`.
+> Status (updated 2026-11-10): both projects now exist —
+> `sitepinsapi` and `sitepinsapp` (no hyphen — the hyphenated
+> domains in earlier drafts do not exist). The app is live and
+> renders the login page; the API still crashes — `GET
+> https://sitepinsapi.vercel.app/healthz` returns 500
+> FUNCTION_INVOCATION_FAILED (checked 2026-11-10 03:58 UTC).
+> Most likely cause is a missing brand env var; the Runtime Logs
+> first error line from the dashboard settles it. Companion doc
+> for the Cloudflare setup: `docs/cloudflare-deploy.md`.
 
 ## 1. Architecture
 
@@ -18,18 +22,18 @@ and neither `api/` nor `app/` has one).
 
 | Piece | Vercel project | Root Directory | Framework | Domain |
 | --- | --- | --- | --- | --- |
-| API (Express 5 + Mongoose 9) | `sitepins-api` | `api` | Express | https://sitepins-api.vercel.app |
-| App (Next.js 16) | `sitepins-app` | `app` | Next.js | https://sitepins-app.vercel.app |
+| API (Express 5 + Mongoose 9) | `sitepinsapi` | `api` | Express | https://sitepinsapi.vercel.app |
+| App (Next.js 16) | `sitepinsapp` | `app` | Next.js | https://sitepinsapp.vercel.app |
 
-(Project names are the proposal — if a name is taken, Vercel
-suggests an alternative; the domains below follow the project
-names.)
+(Project names are the actual slugs created 2026-11-09/10 —
+no hyphen. Earlier drafts used `sitepins-api` / `sitepins-app`;
+those domains do not exist and return DEPLOYMENT_NOT_FOUND.)
 
 ```
-browser ──► sitepins-app.vercel.app ──► app project (Next.js)
+browser ──► sitepinsapp.vercel.app ──► app project (Next.js)
                 │  NEXT_PUBLIC_BACKEND_URL
                 ▼
-            sitepins-api.vercel.app ──► api project (Express, real Node server)
+            sitepinsapi.vercel.app ──► api project (Express, real Node server)
                                            ├─► MongoDB Atlas
                                            └─► Cloudflare R2 (S3-compatible uploads)
 ```
@@ -96,21 +100,24 @@ grant this Muse connection access to team `zaheer-ahmads-projects`
 through Vercel consent / app installation (Vercel dashboard →
 team settings → connected apps), then the agent can retry the
 `create_git_project` calls (api: repo `DashingMZA/sitepins`,
-rootDirectory `api`, project `sitepins-api`; app: rootDirectory
-`app`, project `sitepins-app`).
+rootDirectory `api`, project `sitepinsapi`; app: rootDirectory
+`app`, project `sitepinsapp`).
 
-### Manual path (dashboard — works now)
+### Manual path (dashboard — done 2026-11-09/10, kept as record)
+
+Both projects were created this way. The steps below are how
+they were created (keep for reference / if recreating):
 
 Import the **same repo twice**, once per project:
 
-**Project 1 — `sitepins-api`:**
+**Project 1 — `sitepinsapi`:**
 1. [vercel.com/new](https://vercel.com/new) → Import Git Repository
    → `DashingMZA/sitepins`.
 2. **Root Directory → `api`**. Framework Preset → **Express**
    (if it is not auto-detected, set it manually).
 3. Add the API env vars from §5, then **Deploy**.
 
-**Project 2 — `sitepins-app`:**
+**Project 2 — `sitepinsapp`:**
 1. Same import flow again → `DashingMZA/sitepins`.
 2. **Root Directory → `app`**. Framework Preset → **Next.js**.
 3. Add the app env vars from §5, then **Deploy**.
@@ -118,7 +125,7 @@ Import the **same repo twice**, once per project:
    the app is useless without a live API behind it.)
 
 4. Note the assigned domains. If the names differ from
-   `sitepins-api` / `sitepins-app`, replace the domains in §5
+   `sitepinsapi` / `sitepinsapp`, replace the domains in §5
    accordingly. `NEXT_PUBLIC_*` are inlined at build time, so a
    wrong value means fixing the vars and **redeploying**.
 5. Optional: add custom domains in each project's settings
@@ -133,19 +140,19 @@ manual, turn off Git auto-deploy in each project's settings
 
 ## 5. Environment variables
 
-`<api>` = `https://sitepins-api.vercel.app`,
-`<app>` = `https://sitepins-app.vercel.app`
+`<api>` = `https://sitepinsapi.vercel.app`,
+`<app>` = `https://sitepinsapp.vercel.app`
 (adjust if the project names/domains differ).
 All `NEXT_PUBLIC_*` must be set **before** the app build (they are
 inlined at build time).
 
-### App project (`sitepins-app`)
+### App project (`sitepinsapp`)
 
 | Var | Value |
 | --- | --- |
-| `NEXT_PUBLIC_BACKEND_URL` | `https://sitepins-api.vercel.app/api/v1` |
-| `NEXT_PUBLIC_HP_WS_URL` | `wss://sitepins-api.vercel.app/api/v1/editor/collab` |
-| `NEXT_PUBLIC_BRAND_URL` | `https://sitepins-app.vercel.app` |
+| `NEXT_PUBLIC_BACKEND_URL` | `https://sitepinsapi.vercel.app/api/v1` |
+| `NEXT_PUBLIC_HP_WS_URL` | `wss://sitepinsapi.vercel.app/api/v1/editor/collab` |
+| `NEXT_PUBLIC_BRAND_URL` | `https://sitepinsapp.vercel.app` |
 | `NEXT_PUBLIC_BRAND_NAME` / `NEXT_PUBLIC_BRAND_SLUG` | `Sitepins` / `sitepins` |
 | `NEXT_PUBLIC_BUCKET_URL` | `https://media.csofts.tech` |
 | `NEXT_PUBLIC_GIT_APP_NAME` | GitHub App slug (**required, non-empty** — the build throws without it) |
@@ -158,7 +165,7 @@ App secrets (same values as Cloudflare where applicable):
 `GITLAB_CLIENT_SECRET` (optional), `AI_PROVIDER` / `AI_MODEL` /
 `AI_API_KEY` (optional).
 
-### API project (`sitepins-api`)
+### API project (`sitepinsapi`)
 
 | Secret / var | Value |
 | --- | --- |
@@ -175,9 +182,9 @@ App secrets (same values as Cloudflare where applicable):
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google OAuth app |
 | `RESEND_API_KEY` | Resend API key |
 | `REOON_API_KEY` | optional |
-| `BASE_URL` | `https://sitepins-api.vercel.app` |
-| `CORS_ORIGINS` | `https://sitepins-app.vercel.app` |
-| `APP_URL` | `https://sitepins-app.vercel.app` |
+| `BASE_URL` | `https://sitepinsapi.vercel.app` |
+| `CORS_ORIGINS` | `https://sitepinsapp.vercel.app` |
+| `APP_URL` | `https://sitepinsapp.vercel.app` |
 | `COOKIE_DOMAIN` | *(leave unset — see §2)* |
 | `TRUST_PROXY` | `1` |
 | `MAIL_PROVIDER` | `resend` (or `console` + `REQUIRE_EMAIL_VERIFICATION=false` for a first launch with no mail — OTP is then logged, not emailed) |
@@ -187,19 +194,19 @@ App secrets (same values as Cloudflare where applicable):
 
 | Check | Result |
 | --- | --- |
-| App `next build` with Vercel-style env (`NEXT_PUBLIC_BACKEND_URL=https://sitepins-api.vercel.app/api/v1` equivalent) | PASS — exit 0, all routes emitted (verified with the same-origin URL; the 2-project URL only changes the string value) |
+| App `next build` with Vercel-style env (`NEXT_PUBLIC_BACKEND_URL=https://sitepinsapi.vercel.app/api/v1` equivalent) | PASS — exit 0, all routes emitted (verified with the same-origin URL; the 2-project URL only changes the string value) |
 | API `pnpm build` (`tsc`) | PASS (already verified for the Cloudflare build; same code) |
 | API `pnpm test` | PASS — 44 files, 418 tests |
 | Root `vercel.json` services layout | Present (upstream config) — **not used** by the 2-project imports; kept for the single-project option |
-| Vercel projects / live deploy | **NOT DONE** — needs §4 (dashboard import or team-access grant) |
+| Vercel projects / live deploy | **DONE (dashboard, 2026-11-09/10)** — projects `sitepinsapi` + `sitepinsapp` exist; app live, API `/healthz` 500 FUNCTION_INVOCATION_FAILED (checked 2026-11-10 03:58 UTC). Still blocked on the API crash — needs the Runtime Logs first error line from the dashboard (the agent's Vercel connection is still 403, so it cannot read logs itself). |
 
 ## 7. Smoke-test checklist (after first deploy)
 
-- [ ] `GET https://sitepins-api.vercel.app/healthz` →
+- [ ] `GET https://sitepinsapi.vercel.app/healthz` →
       `{"status":"ok","uptime":...}` (the Node server's probe — the
       `worker: "sitepins-api"` body only exists on the Cloudflare
       Worker entry).
-- [ ] `GET https://sitepins-app.vercel.app/login` renders, login
+- [ ] `GET https://sitepinsapp.vercel.app/login` renders, login
       with a test user works, `/dashboard` loads.
 - [ ] Create a project, connect a GitHub repo, edit a file, save → a
       real commit lands in the repo.
@@ -211,7 +218,7 @@ App secrets (same values as Cloudflare where applicable):
 - [ ] Live preview button → currently shows "sandbox unavailable"
       (expected until §2's restore/gating work is done).
 - [ ] Check the built app calls
-      `https://sitepins-api.vercel.app/api/v1` (browser devtools
+      `https://sitepinsapi.vercel.app/api/v1` (browser devtools
       Network tab). A wrong value means the build env was wrong —
       fix the vars and redeploy.
 
