@@ -106,7 +106,7 @@ Sitepins commits to your repos on your behalf, so it authenticates as a [GitHub 
    | Permission      | Access                |
    | --------------- | --------------------- |
    | Administration  | Read and write        |
-   | Code            | Read and write        |
+   | Contents        | Read and write        |
    | Commit statuses | Read-only             |
    | Deployments     | Read-only             |
    | Metadata        | Read-only (mandatory) |
