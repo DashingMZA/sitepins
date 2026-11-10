@@ -4,10 +4,10 @@ Thanks for your interest in contributing!
 
 ## Getting started
 
-Requirements: Node.js 22+, pnpm 11+, MongoDB.
+Requirements: Node.js 24+, pnpm 11+, MongoDB.
 
 ```bash
-git clone git@github.com:sitepins/sitepins.git
+git clone git@github.com:DashingMZA/sitepins.git
 cd sitepins
 pnpm install
 
@@ -47,7 +47,7 @@ docs: clarify self-hosting env vars
 
 ## Reporting bugs
 
-Open a [GitHub issue](https://github.com/sitepins/sitepins/issues) with steps to reproduce, expected vs. actual behavior, and your environment (OS, Node version, browser). For security vulnerabilities, see [SECURITY.md](./SECURITY.md) — do not open a public issue.
+Open a [GitHub issue](https://github.com/DashingMZA/sitepins/issues) with steps to reproduce, expected vs. actual behavior, and your environment (OS, Node version, browser). For security vulnerabilities, see [SECURITY.md](./SECURITY.md) — do not open a public issue.
 
 ## License
 
