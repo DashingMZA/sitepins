@@ -6,7 +6,7 @@
 
 Connect your GitHub or GitLab repo and start editing. Sitepins reads your content structure and builds the editor for you. No schema to define. No config file to write. Every save is a real Git commit.
 
-[**Live Demo**](https://csofts.tech) · [**Documentation**](https://docs.sitepins.com) · [**Try Cloud Version for Free**](https://csofts.tech.com/pricing?ref=github)
+[**Live Demo**](https://csofts.tech) · [**Documentation**](https://docs.csofts.tech) · [**Try Cloud Version for Free**](https://csofts.tech.com/pricing?ref=github)
 
 ![License](https://img.shields.io/badge/license-AGPL%20v3-2b7489)
 ![Stars](https://img.shields.io/github/stars/DashingMZA/sitepins?style=social)
@@ -185,7 +185,7 @@ api/   # Express + MongoDB backend: auth, orgs, projects, git providers
 
 ## Documentation
 
-- **Full docs:** [docs.sitepins.com](https://docs.sitepins.com)
+- **Full docs:** [docs.csofts.tech](https://docs.csofts.tech)
 - [app/README.md](https://github.com/DashingMZA/sitepins/blob/main/app/README.md): frontend stack, folder structure, env vars, scripts, GitHub and GitLab app setup.
 - [api/README.md](https://github.com/DashingMZA/sitepins/blob/main/api/README.md): backend stack, module structure, env vars, scripts, secret generation, extension points.
 
@@ -203,6 +203,6 @@ Contributions are welcome. See [CONTRIBUTING.md](https://github.com/DashingMZA/s
 
 If Sitepins saves you a round of content edits, [**star the repo**](https://github.com/DashingMZA/sitepins) so more people find it.
 
-[Website](https://csofts.tech) · [Docs](https://docs.sitepins.com) · [Demo](https://csofts.tech) · [X (Twitter)](https://x.com/sitepinscms) · [Join Discord Community](https://discord.gg/UDhCe68qy)
+[Website](https://csofts.tech) · [Docs](https://docs.sitepins.com) · [Demo](https://demo.csofts.tech) · [X (Twitter)](https://x.com/sitepinscms) · [Join Discord Community](https://discord.gg/UDhCe68qy)
 
 </div>
