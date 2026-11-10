@@ -17,7 +17,10 @@ import {
   TChangesetChange,
 } from "../../lib/git-engine/changeset";
 import { GitEngineError } from "../../lib/git-engine/errors";
-import { normalizeRepoPath, TPathPolicy } from "../../lib/git-engine/path-policy";
+import {
+  normalizeRepoPath,
+  TPathPolicy,
+} from "../../lib/git-engine/path-policy";
 import { TGitClient, TGitFile } from "../../lib/git-engine/types";
 import { logger } from "../../lib/logger";
 import { broadcastExternalCommit } from "../common/editor.gateway";

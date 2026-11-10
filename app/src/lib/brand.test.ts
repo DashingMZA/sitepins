@@ -14,6 +14,15 @@ afterEach(() => {
 
 describe("brand", () => {
   it("reads the Sitepins identity from env", async () => {
+    // Pin the identity explicitly: setup-env.ts only fills UNSET vars
+    // (??=), so ambient brand env (e.g. CI's csofts.tech URLs) would
+    // otherwise leak into this test and fail it.
+    vi.stubEnv("NEXT_PUBLIC_BRAND_NAME", "Sitepins");
+    vi.stubEnv("NEXT_PUBLIC_BRAND_SLUG", "sitepins");
+    vi.stubEnv("NEXT_PUBLIC_BRAND_URL", "https://sitepins.com");
+    vi.stubEnv("NEXT_PUBLIC_TERMS_URL", "https://sitepins.com/terms");
+    vi.stubEnv("NEXT_PUBLIC_STATUS_URL", "https://status.sitepins.com");
+    vi.stubEnv("NEXT_PUBLIC_BRAND_FAVICON", "/images/favicon.png");
     const b = await loadBrand();
     expect(b.BRAND_NAME).toBe("Sitepins");
     expect(b.BRAND_SLUG).toBe("sitepins");

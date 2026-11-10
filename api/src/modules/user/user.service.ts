@@ -72,7 +72,9 @@ const setPasswordService = async (req: Request) => {
   const newPassword = req.body.newPassword;
   // better-auth is ESM-only — dynamic import (see auth.ts).
   const { fromNodeHeaders } = await import("better-auth/node");
-  const response = await (await getAuth()).api.setPassword({
+  const response = await (
+    await getAuth()
+  ).api.setPassword({
     body: { newPassword },
     headers: fromNodeHeaders(req.headers),
   });

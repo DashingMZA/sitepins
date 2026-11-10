@@ -35,11 +35,15 @@ export async function authenticateSocket(
     // The regular app and the demo app use different session cookies. The
     // socket handshake doesn't tell us which, so try both issuers and accept
     // whichever produces a valid session.
-    let session = await (await getAuth()).api.getSession({
+    let session = await (
+      await getAuth()
+    ).api.getSession({
       headers: nodeHeaders,
     });
     if (!getSessionUserId(session)) {
-      session = await (await getAuthDemo()).api.getSession({
+      session = await (
+        await getAuthDemo()
+      ).api.getSession({
         headers: nodeHeaders,
       });
     }

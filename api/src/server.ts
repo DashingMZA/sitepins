@@ -31,13 +31,17 @@ const hocuspocus = new Hocuspocus({
   async onAuthenticate({ requestHeaders, documentName }) {
     // Try both auth issuers (app + demo) – the WebSocket handshake doesn't
     // tell us which cookie prefix was used. Mirrors socketAuth.ts.
-    let session = await (await getAuth()).api.getSession({
+    let session = await (
+      await getAuth()
+    ).api.getSession({
       headers: requestHeaders,
     });
     let userId = getSessionUserId(session);
 
     if (!userId) {
-      session = await (await getAuthDemo()).api.getSession({
+      session = await (
+        await getAuthDemo()
+      ).api.getSession({
         headers: requestHeaders,
       });
       userId = getSessionUserId(session);
