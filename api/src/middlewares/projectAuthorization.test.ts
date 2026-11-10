@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { ENUM_PERMISSIONS, ENUM_ROLE_ORG } from "@/enums/roles";
+import { ENUM_PERMISSIONS, ENUM_ROLE_ORG } from "../enums/roles";
 import orgMiddleware from "./orgMiddleware";
 import { projectMiddleware } from "./projectMiddleware";
 
@@ -15,10 +15,10 @@ import { projectMiddleware } from "./projectMiddleware";
 const projectFindOne = vi.fn();
 const orgFindOne = vi.fn();
 
-vi.mock("@/modules/project/project.model", () => ({
+vi.mock("../modules/project/project.model", () => ({
   Project: { findOne: (...a: unknown[]) => projectFindOne(...a) },
 }));
-vi.mock("@/modules/organization/organization.model", () => ({
+vi.mock("../modules/organization/organization.model", () => ({
   Organization: { findOne: (...a: unknown[]) => orgFindOne(...a) },
 }));
 

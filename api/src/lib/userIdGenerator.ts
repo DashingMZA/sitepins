@@ -1,4 +1,4 @@
-import { User } from "@/modules/user/user.model";
+import { User } from "../modules/user/user.model";
 import { nanoId } from "./nanoId";
 
 export const USER_ID_LENGTH = 16;

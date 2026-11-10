@@ -1,4 +1,4 @@
-import { allowedOrigins } from "@/config/cors-options";
+import { allowedOrigins } from "../config/cors-options";
 
 /** Public origin of the web app, from APP_URL or the first CORS origin. */
 export const getAppUrl = (): string | undefined => {

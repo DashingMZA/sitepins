@@ -1,4 +1,4 @@
-import type { TErrorMessage, TErrorResponse } from "@/types";
+import type { TErrorMessage, TErrorResponse } from "../types";
 import mongoose from "mongoose";
 
 export const handleValidationErrors = (

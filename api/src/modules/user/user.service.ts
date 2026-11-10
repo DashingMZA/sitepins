@@ -1,8 +1,8 @@
-import { auth } from "@/auth";
-import { emitUserUpdate } from "@/lib/lifecycleHooks";
-import { logger } from "@/lib/logger";
-import { sendMail } from "@/lib/mailer";
-import { requireUser } from "@/lib/requireUser";
+import { auth } from "../../auth";
+import { emitUserUpdate } from "../../lib/lifecycleHooks";
+import { logger } from "../../lib/logger";
+import { sendMail } from "../../lib/mailer";
+import { requireUser } from "../../lib/requireUser";
 import { fromNodeHeaders } from "better-auth/node";
 import { Request } from "express";
 import mongoose from "mongoose";

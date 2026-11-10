@@ -1,6 +1,6 @@
-import catchAsync from "@/lib/catchAsync";
-import { requireUserId } from "@/lib/requireUser";
-import { sendResponse } from "@/lib/sendResponse";
+import catchAsync from "../../lib/catchAsync";
+import { requireUserId } from "../../lib/requireUser";
+import { sendResponse } from "../../lib/sendResponse";
 import { Request, Response } from "express";
 import { organizationService } from "./organization.service";
 

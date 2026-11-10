@@ -1,4 +1,4 @@
-import { encrypt, tokenIndex } from "@/lib/encrypt";
+import { encrypt, tokenIndex } from "../../lib/encrypt";
 import type { Request, Response } from "express";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -28,21 +28,21 @@ vi.mock("./git-provider.model", () => ({
   },
 }));
 
-vi.mock("@/modules/organization/organization.model", () => ({
+vi.mock("../organization/organization.model", () => ({
   Organization: {
     find: (...args: unknown[]) => organizationFindMock(...args),
   },
 }));
 
-vi.mock("@/modules/project/project.model", () => ({
+vi.mock("../project/project.model", () => ({
   Project: {
     exists: (...args: unknown[]) => projectExistsMock(...args),
     findOne: (...args: unknown[]) => projectFindOneMock(...args),
   },
 }));
 
-vi.mock("@/lib/resourceAuth", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("@/lib/resourceAuth")>()),
+vi.mock("../../lib/resourceAuth", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../lib/resourceAuth")>()),
   requireOrgRole: (...args: unknown[]) => requireOrgRoleMock(...args),
 }));
 

@@ -1,7 +1,7 @@
-import { paginationField } from "@/config/constants";
-import catchAsync from "@/lib/catchAsync";
-import pick from "@/lib/filterPicker";
-import { sendResponse } from "@/lib/sendResponse";
+import { paginationField } from "../../config/constants";
+import catchAsync from "../../lib/catchAsync";
+import pick from "../../lib/filterPicker";
+import { sendResponse } from "../../lib/sendResponse";
 import { Request, Response } from "express";
 import { projectLogService } from "./project-log.service";
 

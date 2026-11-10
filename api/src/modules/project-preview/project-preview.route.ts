@@ -1,6 +1,6 @@
-import { ENUM_ROLE_ORG } from "@/enums/roles";
-import { internalOrAuth } from "@/middlewares/internalOrAuth";
-import { projectMiddleware } from "@/middlewares/projectMiddleware";
+import { ENUM_ROLE_ORG } from "../../enums/roles";
+import { internalOrAuth } from "../../middlewares/internalOrAuth";
+import { projectMiddleware } from "../../middlewares/projectMiddleware";
 import express from "express";
 import { projectPreviewController } from "./project-preview.controller";
 

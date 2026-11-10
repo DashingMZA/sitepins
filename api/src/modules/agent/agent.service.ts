@@ -1,13 +1,13 @@
-import brand from "@/config/brand";
-import config from "@/config/variables";
-import ApiError from "@/errors/ApiError";
+import brand from "../../config/brand";
+import config from "../../config/variables";
+import ApiError from "../../errors/ApiError";
 import {
   configPaths,
   isConfigDirPath,
   isSchemaDirPath,
   isSnippetDirPath,
-} from "@/lib/configDir";
-import { runAgentAccessGuard } from "@/lib/extensionGuards";
+} from "../../lib/configDir";
+import { runAgentAccessGuard } from "../../lib/extensionGuards";
 import {
   applyChangeset,
   buildCommitMessage,
@@ -15,19 +15,19 @@ import {
   gitBlobSha,
   TApplyChangesetResult,
   TChangesetChange,
-} from "@/lib/git-engine/changeset";
-import { GitEngineError } from "@/lib/git-engine/errors";
-import { normalizeRepoPath, TPathPolicy } from "@/lib/git-engine/path-policy";
-import { TGitClient, TGitFile } from "@/lib/git-engine/types";
-import { logger } from "@/lib/logger";
-import { broadcastExternalCommit } from "@/modules/common/editor.gateway";
-import { ProjectLog } from "@/modules/project-log/project-log.model";
+} from "../../lib/git-engine/changeset";
+import { GitEngineError } from "../../lib/git-engine/errors";
+import { normalizeRepoPath, TPathPolicy } from "../../lib/git-engine/path-policy";
+import { TGitClient, TGitFile } from "../../lib/git-engine/types";
+import { logger } from "../../lib/logger";
+import { broadcastExternalCommit } from "../common/editor.gateway";
+import { ProjectLog } from "../project-log/project-log.model";
 import {
   EProjectLogAction,
   EProjectLogType,
-} from "@/modules/project-log/project-log.type";
-import { Project } from "@/modules/project/project.model";
-import { TProjectType } from "@/modules/project/project.type";
+} from "../project-log/project-log.type";
+import { Project } from "../project/project.model";
+import { TProjectType } from "../project/project.type";
 import {
   issueGitReadToken,
   issueUploadTicket,

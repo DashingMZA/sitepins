@@ -1,4 +1,4 @@
-import { TPagination } from "@/types";
+import { TPagination } from "../types";
 
 export type TPaginationResult = TPagination & {
   skip: number;

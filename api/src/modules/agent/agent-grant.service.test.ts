@@ -1,4 +1,4 @@
-import { setAgentAccessGuard } from "@/lib/extensionGuards";
+import { setAgentAccessGuard } from "../../lib/extensionGuards";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createTokenGrant, revokeGrant } from "./agent-grant.service";
 import { EAgentScope } from "./agent.type";
@@ -11,18 +11,18 @@ const m = vi.hoisted(() => ({
   orgFindOne: vi.fn(),
 }));
 
-vi.mock("@/lib/resourceAuth", () => ({
+vi.mock("../../lib/resourceAuth", () => ({
   requireOrgAccess: (...a: unknown[]) => m.requireOrgAccess(...a),
 }));
-vi.mock("@/lib/nanoId", () => ({ nanoId: async () => "grant-id" }));
-vi.mock("@/modules/project/project.model", () => ({
+vi.mock("../../lib/nanoId", () => ({ nanoId: async () => "grant-id" }));
+vi.mock("../project/project.model", () => ({
   Project: {
     find: (...a: unknown[]) => ({
       select: () => ({ lean: () => m.projectCount(...a) }),
     }),
   },
 }));
-vi.mock("@/modules/organization/organization.model", () => ({
+vi.mock("../organization/organization.model", () => ({
   Organization: {
     findOne: (...a: unknown[]) => ({
       select: () => ({ lean: () => m.orgFindOne(...a) }),

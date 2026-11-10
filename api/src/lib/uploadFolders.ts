@@ -1,5 +1,5 @@
-import brand from "@/config/brand";
-import type { TAuthUser } from "@/types";
+import brand from "../config/brand";
+import type { TAuthUser } from "../types";
 
 /** True for an S3 key the app itself uploaded (avatars, logos). */
 export const isUploadKey = (key: string) =>

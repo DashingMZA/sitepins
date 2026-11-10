@@ -51,7 +51,7 @@ vi.mock("../organization/organization.model", () => ({
   },
 }));
 
-vi.mock("@/lib/extensionGuards", () => ({
+vi.mock("../../lib/extensionGuards", () => ({
   runProjectMutationGuard: (...a: unknown[]) =>
     runProjectMutationGuardMock(...a),
   decorateProject: (p: unknown) => p,

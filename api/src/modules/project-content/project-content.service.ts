@@ -1,6 +1,6 @@
-import { paginationHelpers } from "@/lib/paginationHelper";
-import { escapeRegex } from "@/lib/regexEscape";
-import { TPagination } from "@/types";
+import { paginationHelpers } from "../../lib/paginationHelper";
+import { escapeRegex } from "../../lib/regexEscape";
+import { TPagination } from "../../types";
 import { PipelineStage } from "mongoose";
 import { ProjectContent } from "./project-content.model";
 import {

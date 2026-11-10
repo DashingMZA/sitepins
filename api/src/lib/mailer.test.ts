@@ -20,7 +20,7 @@ const { mockConfig, createTransportMock, transportSendMailMock } = vi.hoisted(
   }),
 );
 
-vi.mock("@/config/variables", () => ({ default: mockConfig }));
+vi.mock("../config/variables", () => ({ default: mockConfig }));
 
 vi.mock("nodemailer", () => ({
   createTransport: (...args: unknown[]) => createTransportMock(...args),

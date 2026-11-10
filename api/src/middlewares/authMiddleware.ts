@@ -1,10 +1,10 @@
-import { auth, Session } from "@/auth";
-import { authDemo } from "@/auth-demo";
-import config from "@/config/variables";
-import { ENUM_ROLE, ENUM_ROLE_ORG } from "@/enums/roles";
-import { getJwtIssuers } from "@/lib/authIssuers";
-import ApiError from "@/errors/ApiError";
-import { jwtHelpers } from "@/lib/jwtTokenHelper";
+import { auth, Session } from "../auth";
+import { authDemo } from "../auth-demo";
+import config from "../config/variables";
+import { ENUM_ROLE, ENUM_ROLE_ORG } from "../enums/roles";
+import { getJwtIssuers } from "../lib/authIssuers";
+import ApiError from "../errors/ApiError";
+import { jwtHelpers } from "../lib/jwtTokenHelper";
 import { HttpStatusCode } from "axios";
 import { fromNodeHeaders } from "better-auth/node";
 import { NextFunction, Request, Response } from "express";

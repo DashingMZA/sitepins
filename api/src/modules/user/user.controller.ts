@@ -1,5 +1,5 @@
-import catchAsync from "@/lib/catchAsync";
-import { sendResponse } from "@/lib/sendResponse";
+import catchAsync from "../../lib/catchAsync";
+import { sendResponse } from "../../lib/sendResponse";
 import { Request, Response } from "express";
 import { userService } from "./user.service";
 

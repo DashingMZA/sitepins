@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { logger } from "@/lib/logger";
-import { resolveEnv } from "@/lib/workerEnv";
+import { logger } from "./logger";
+import { resolveEnv } from "./workerEnv";
 
 // Idempotent: safe to call on every Worker/Durable Object request. A
 // Durable Object holds one long-lived Mongoose connection (maxPoolSize 1 in

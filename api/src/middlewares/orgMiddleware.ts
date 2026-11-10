@@ -1,6 +1,6 @@
-import { TPermission } from "@/enums/roles";
-import ApiError from "@/errors/ApiError";
-import { requireOrgPermission, resolveTargetOrgId } from "@/lib/resourceAuth";
+import { TPermission } from "../enums/roles";
+import ApiError from "../errors/ApiError";
+import { requireOrgPermission, resolveTargetOrgId } from "../lib/resourceAuth";
 import { NextFunction, Request, Response } from "express";
 
 const orgMiddleware =

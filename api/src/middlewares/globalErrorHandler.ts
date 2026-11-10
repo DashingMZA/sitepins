@@ -1,13 +1,13 @@
-import config from "@/config/variables";
-import ApiError from "@/errors/ApiError";
+import config from "../config/variables";
+import ApiError from "../errors/ApiError";
 import {
   duplicateKeyFields,
   duplicateKeyMessage,
   isDuplicateKeyError,
-} from "@/errors/duplicateKey";
-import { handleValidationErrors } from "@/errors/handleValidationError";
-import { logger } from "@/lib/logger";
-import { TErrorMessage } from "@/types";
+} from "../errors/duplicateKey";
+import { handleValidationErrors } from "../errors/handleValidationError";
+import { logger } from "../lib/logger";
+import { TErrorMessage } from "../types";
 import { ErrorRequestHandler } from "express";
 
 export const globalErrorhandler: ErrorRequestHandler = (

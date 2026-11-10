@@ -1,8 +1,8 @@
-import { createFakeGitHub } from "@/lib/git-engine/fake-hosts.fixture";
-import { createGitHubClient } from "@/lib/git-engine/github";
-import { setAgentAccessGuard } from "@/lib/extensionGuards";
+import { createFakeGitHub } from "../../lib/git-engine/fake-hosts.fixture";
+import { createGitHubClient } from "../../lib/git-engine/github";
+import { setAgentAccessGuard } from "../../lib/extensionGuards";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { gitBlobSha } from "@/lib/git-engine/changeset";
+import { gitBlobSha } from "../../lib/git-engine/changeset";
 import {
   applyAgentChangeset,
   applyTextEdits,
@@ -45,12 +45,12 @@ const m = vi.hoisted(() => ({
   broadcast: vi.fn(),
   upstream: 0,
   fake: undefined as unknown as ReturnType<
-    typeof import("@/lib/git-engine/fake-hosts.fixture").createFakeGitHub
+    typeof import("../../lib/git-engine/fake-hosts.fixture").createFakeGitHub
   >,
 }));
 const { projectFindOne, logInsertMany, broadcast } = m;
 
-vi.mock("@/config/variables", async (importOriginal) => {
+vi.mock("../../config/variables", async (importOriginal) => {
   const actual = await importOriginal<{ default: Record<string, unknown> }>();
   return {
     default: {
@@ -60,7 +60,7 @@ vi.mock("@/config/variables", async (importOriginal) => {
     },
   };
 });
-vi.mock("@/modules/project/project.model", () => ({
+vi.mock("../project/project.model", () => ({
   Project: {
     findOne: (...a: unknown[]) => ({ lean: () => m.projectFindOne(...a) }),
     find: (...a: unknown[]) => ({
@@ -84,7 +84,7 @@ vi.mock("./agent-grant.model", () => ({
     updateOne: () => ({ catch: () => undefined }),
   },
 }));
-vi.mock("@/modules/user/user.model", () => ({
+vi.mock("../user/user.model", () => ({
   User: {
     findOne: () => ({
       select: () => ({
@@ -93,13 +93,13 @@ vi.mock("@/modules/user/user.model", () => ({
     }),
   },
 }));
-vi.mock("@/lib/resourceAuth", () => ({
+vi.mock("../../lib/resourceAuth", () => ({
   requireOrgAccess: async () => ({ role: "editor" }),
 }));
-vi.mock("@/modules/project-log/project-log.model", () => ({
+vi.mock("../project-log/project-log.model", () => ({
   ProjectLog: { insertMany: (...a: unknown[]) => m.logInsertMany(...a) },
 }));
-vi.mock("@/modules/common/editor.gateway", () => ({
+vi.mock("../common/editor.gateway", () => ({
   broadcastExternalCommit: (...a: unknown[]) => m.broadcast(...a),
 }));
 vi.mock("./agent.git", () => {

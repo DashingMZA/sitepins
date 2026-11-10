@@ -1,9 +1,9 @@
-import brand from "@/config/brand";
-import ApiError from "@/errors/ApiError";
-import { logger } from "@/lib/logger";
-import { requireOrgAccess } from "@/lib/resourceAuth";
-import { User } from "@/modules/user/user.model";
-import config from "@/config/variables";
+import brand from "../../config/brand";
+import ApiError from "../../errors/ApiError";
+import { logger } from "../../lib/logger";
+import { requireOrgAccess } from "../../lib/resourceAuth";
+import { User } from "../user/user.model";
+import config from "../../config/variables";
 import { createHash, createHmac, randomBytes, timingSafeEqual } from "crypto";
 import type { Request } from "express";
 import { AgentGrant } from "./agent-grant.model";

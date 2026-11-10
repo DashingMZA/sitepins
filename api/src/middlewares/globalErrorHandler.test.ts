@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import { describe, expect, it, vi } from "vitest";
-import ApiError from "@/errors/ApiError";
+import ApiError from "../errors/ApiError";
 import { globalErrorhandler } from "./globalErrorHandler";
 
 // The handler now withholds messages from non-operational errors (driver /

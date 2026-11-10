@@ -1,4 +1,4 @@
-import { EAgentScope, TAgentContext } from "@/modules/agent/agent.type";
+import { EAgentScope, TAgentContext } from "../modules/agent/agent.type";
 import type { z } from "zod";
 
 export { EAgentScope };

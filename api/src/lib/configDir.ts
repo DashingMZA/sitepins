@@ -1,4 +1,4 @@
-import brand from "@/config/brand";
+import brand from "../config/brand";
 
 // The repo folder (`.<slug>`) that holds config.json, schema/ and snippet/.
 export const CONFIG_DIR = brand.config_dir;

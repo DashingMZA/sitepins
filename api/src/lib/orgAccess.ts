@@ -1,4 +1,4 @@
-import { Organization } from "@/modules/organization/organization.model";
+import { Organization } from "../modules/organization/organization.model";
 
 /**
  * True when `userId` is the owner of, or a member of, the organization.

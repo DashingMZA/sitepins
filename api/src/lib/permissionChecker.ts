@@ -1,4 +1,4 @@
-import { ROLE_PERMISSIONS, TOrgRole, TPermission } from "@/enums/roles";
+import { ROLE_PERMISSIONS, TOrgRole, TPermission } from "../enums/roles";
 
 // Own-property check only: `role` is caller-supplied, so `in` would match
 // inherited members like "toString" and yield a non-array.

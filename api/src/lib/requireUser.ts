@@ -1,5 +1,5 @@
-import ApiError from "@/errors/ApiError";
-import { TAuthUser } from "@/types";
+import ApiError from "../errors/ApiError";
+import { TAuthUser } from "../types";
 import { HttpStatusCode } from "axios";
 import { Request } from "express";
 

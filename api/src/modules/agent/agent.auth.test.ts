@@ -20,7 +20,7 @@ const m = vi.hoisted(() => ({
     }),
 }));
 
-vi.mock("@/config/variables", () => ({
+vi.mock("../../config/variables", () => ({
   default: { better_auth_secret: "test-secret" },
 }));
 vi.mock("./agent-grant.model", () => ({
@@ -29,10 +29,10 @@ vi.mock("./agent-grant.model", () => ({
     updateOne: () => ({ catch: () => undefined }),
   },
 }));
-vi.mock("@/modules/user/user.model", () => ({
+vi.mock("../user/user.model", () => ({
   User: { findOne: m.lean((...a) => m.userFindOne(...a)) },
 }));
-vi.mock("@/lib/resourceAuth", () => ({
+vi.mock("../../lib/resourceAuth", () => ({
   requireOrgAccess: (...a: unknown[]) => m.requireOrgAccess(...a),
 }));
 

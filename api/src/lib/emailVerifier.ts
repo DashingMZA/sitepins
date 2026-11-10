@@ -1,6 +1,6 @@
-import config from "@/config/variables";
+import config from "../config/variables";
 import axios from "axios";
-import { logger } from "@/lib/logger";
+import { logger } from "./logger";
 
 type EmailVerificationResponse = {
   email: string;

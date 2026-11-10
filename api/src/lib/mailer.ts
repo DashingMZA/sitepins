@@ -1,7 +1,7 @@
-import brand from "@/config/brand";
-import config from "@/config/variables";
-import { logger } from "@/lib/logger";
-import { isWorkerRuntime } from "@/lib/workerEnv";
+import brand from "../config/brand";
+import config from "../config/variables";
+import { logger } from "./logger";
+import { isWorkerRuntime } from "./workerEnv";
 
 // ---------------------------------------------------------------------------
 // Provider-agnostic transactional mailer.

@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { logger } from "@/lib/logger";
+import { logger } from "./logger";
 
 const ALGORITHM = "aes-256-gcm";
 const KEY_ENV = "SANDBOX_ENCRYPTION_KEY";

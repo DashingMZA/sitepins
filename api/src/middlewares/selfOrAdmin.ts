@@ -1,6 +1,6 @@
-import { ENUM_ROLE } from "@/enums/roles";
-import ApiError from "@/errors/ApiError";
-import { readId } from "@/lib/resourceAuth";
+import { ENUM_ROLE } from "../enums/roles";
+import ApiError from "../errors/ApiError";
+import { readId } from "../lib/resourceAuth";
 import { RequestHandler } from "express";
 
 /**

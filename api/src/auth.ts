@@ -1,5 +1,5 @@
-import brand from "@/config/brand";
-import config from "@/config/variables";
+import brand from "./config/brand";
+import config from "./config/variables";
 import bcrypt from "bcryptjs";
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";

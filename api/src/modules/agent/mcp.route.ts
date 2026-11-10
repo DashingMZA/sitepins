@@ -1,7 +1,7 @@
-import { allowedOrigins } from "@/config/cors-options";
-import ApiError from "@/errors/ApiError";
-import { logger } from "@/lib/logger";
-import { agentLimiter } from "@/middlewares/rateLimiters";
+import { allowedOrigins } from "../../config/cors-options";
+import ApiError from "../../errors/ApiError";
+import { logger } from "../../lib/logger";
+import { agentLimiter } from "../../middlewares/rateLimiters";
 import { createMcpHandler } from "@modelcontextprotocol/server";
 import { toNodeHandler } from "@modelcontextprotocol/node";
 import type { NextFunction, Request, Response } from "express";

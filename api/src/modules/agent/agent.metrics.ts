@@ -1,4 +1,4 @@
-import { logger } from "@/lib/logger";
+import { logger } from "../../lib/logger";
 import { AsyncLocalStorage } from "node:async_hooks";
 
 type TToolMetrics = { upstream: number };

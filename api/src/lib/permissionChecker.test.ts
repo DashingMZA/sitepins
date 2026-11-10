@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ENUM_PERMISSIONS, ENUM_ROLE_ORG } from "@/enums/roles";
+import { ENUM_PERMISSIONS, ENUM_ROLE_ORG } from "../enums/roles";
 import { hasPermission } from "./permissionChecker";
 
 describe("hasPermission", () => {

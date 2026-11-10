@@ -1,5 +1,5 @@
-import { runUserDeletionHooks } from "@/lib/lifecycleHooks";
-import { TAuthUser } from "@/types";
+import { runUserDeletionHooks } from "../../lib/lifecycleHooks";
+import { TAuthUser } from "../../types";
 import mongoose, { ClientSession } from "mongoose";
 import { AgentGrant } from "../agent/agent-grant.model";
 import { forgetAgents } from "../agent/agent.cache";

@@ -1,7 +1,7 @@
-import { ENUM_PERMISSIONS } from "@/enums/roles";
-import ApiError from "@/errors/ApiError";
-import { readId, requireOrgPermission } from "@/lib/resourceAuth";
-import { Project } from "@/modules/project/project.model";
+import { ENUM_PERMISSIONS } from "../enums/roles";
+import ApiError from "../errors/ApiError";
+import { readId, requireOrgPermission } from "../lib/resourceAuth";
+import { Project } from "../modules/project/project.model";
 import { RequestHandler } from "express";
 
 // Moving a project crosses a tenant boundary, so BOTH sides must be checked:

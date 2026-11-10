@@ -6,7 +6,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 // integration test against Mongo.
 const findOneMock = vi.fn();
 
-vi.mock("@/modules/organization/organization.model", () => ({
+vi.mock("../modules/organization/organization.model", () => ({
   Organization: {
     findOne: (...args: unknown[]) => findOneMock(...args),
   },

@@ -1,6 +1,6 @@
-import ApiError from "@/errors/ApiError";
-import { defineAgentTool, registerAgentTools } from "@/lib/agentExtensions";
-import { GitEngineError } from "@/lib/git-engine/errors";
+import ApiError from "../../errors/ApiError";
+import { defineAgentTool, registerAgentTools } from "../../lib/agentExtensions";
+import { GitEngineError } from "../../lib/git-engine/errors";
 import { createMcpHandler } from "@modelcontextprotocol/server";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { z } from "zod";

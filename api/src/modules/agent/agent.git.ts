@@ -1,16 +1,16 @@
-import config from "@/config/variables";
-import ApiError from "@/errors/ApiError";
-import { getAppUrl } from "@/lib/appUrl";
+import config from "../../config/variables";
+import ApiError from "../../errors/ApiError";
+import { getAppUrl } from "../../lib/appUrl";
 import {
   createGitHubClient,
   parseGitHubRepository,
-} from "@/lib/git-engine/github";
+} from "../../lib/git-engine/github";
 import {
   assertGitLabRepository,
   createGitLabClient,
-} from "@/lib/git-engine/gitlab";
-import { TGitClient } from "@/lib/git-engine/types";
-import { TProjectType } from "@/modules/project/project.type";
+} from "../../lib/git-engine/gitlab";
+import { TGitClient } from "../../lib/git-engine/types";
+import { TProjectType } from "../project/project.type";
 import { TCachedGitClient, withCache } from "./agent.cache";
 import { countUpstream } from "./agent.metrics";
 

@@ -1,4 +1,4 @@
-import { resolveEnv } from "@/lib/workerEnv";
+import { resolveEnv } from "../lib/workerEnv";
 import { CorsOptions } from "cors";
 
 // Origins allowed in production. Configure via CORS_ORIGINS as a

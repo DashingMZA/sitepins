@@ -1,6 +1,6 @@
-import { TAuthUser } from "@/types";
+import { TAuthUser } from "../types";
 import type { ClientSession } from "mongoose";
-import { logger } from "@/lib/logger";
+import { logger } from "./logger";
 
 // Extensions register hooks here to clean up (or archive) their own
 // collections when a user account is deleted.

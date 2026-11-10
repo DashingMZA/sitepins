@@ -1,5 +1,5 @@
-import config from "@/config/variables";
-import { ENUM_ROLE } from "@/enums/roles";
+import config from "../config/variables";
+import { ENUM_ROLE } from "../enums/roles";
 import { NextFunction, Request, Response } from "express";
 import { timingSafeEqual } from "crypto";
 import { authMiddleware } from "./authMiddleware";

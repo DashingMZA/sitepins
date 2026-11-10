@@ -1,8 +1,8 @@
-import { paginationField } from "@/config/constants";
-import catchAsync from "@/lib/catchAsync";
-import pick from "@/lib/filterPicker";
-import { requireUserId } from "@/lib/requireUser";
-import { sendResponse } from "@/lib/sendResponse";
+import { paginationField } from "../../config/constants";
+import catchAsync from "../../lib/catchAsync";
+import pick from "../../lib/filterPicker";
+import { requireUserId } from "../../lib/requireUser";
+import { sendResponse } from "../../lib/sendResponse";
 import { Request, Response } from "express";
 import { projectContentService } from "./project-content.service";
 

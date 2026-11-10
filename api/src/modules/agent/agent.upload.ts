@@ -1,6 +1,6 @@
-import ApiError from "@/errors/ApiError";
-import { logger } from "@/lib/logger";
-import { agentLimiter } from "@/middlewares/rateLimiters";
+import ApiError from "../../errors/ApiError";
+import { logger } from "../../lib/logger";
+import { agentLimiter } from "../../middlewares/rateLimiters";
 import express, { Request, Response } from "express";
 import {
   redeemUploadTicket,

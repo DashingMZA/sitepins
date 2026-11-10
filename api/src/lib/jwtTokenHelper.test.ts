@@ -9,7 +9,7 @@ const { mockConfig } = vi.hoisted(() => ({
   mockConfig: { jwt_expire: undefined as string | undefined },
 }));
 
-vi.mock("@/config/variables", () => ({ default: mockConfig }));
+vi.mock("../config/variables", () => ({ default: mockConfig }));
 
 import { jwtHelpers } from "./jwtTokenHelper";
 

@@ -1,7 +1,7 @@
-import { ENUM_ROLE } from "@/enums/roles";
-import { authMiddleware } from "@/middlewares/authMiddleware";
-import { internalOnly } from "@/middlewares/internalOnly";
-import { internalOrRole } from "@/middlewares/internalOrAuth";
+import { ENUM_ROLE } from "../../enums/roles";
+import { authMiddleware } from "../../middlewares/authMiddleware";
+import { internalOnly } from "../../middlewares/internalOnly";
+import { internalOrRole } from "../../middlewares/internalOrAuth";
 import express from "express";
 import { gitProviderController } from "./git-provider.controller";
 

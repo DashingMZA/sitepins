@@ -1,4 +1,4 @@
-import { ENUM_ROLE_ORG } from "@/enums/roles";
+import { ENUM_ROLE_ORG } from "../enums/roles";
 
 // allow only editor and admin role for organization members
 export const ASSIGNABLE_MEMBER_ROLES: readonly string[] = [

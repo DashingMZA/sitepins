@@ -1,8 +1,8 @@
-import { ENUM_ROLE_ORG, TOrgRole, TPermission } from "@/enums/roles";
-import ApiError from "@/errors/ApiError";
-import { hasPermission } from "@/lib/permissionChecker";
-import { Organization } from "@/modules/organization/organization.model";
-import { Project } from "@/modules/project/project.model";
+import { ENUM_ROLE_ORG, TOrgRole, TPermission } from "../enums/roles";
+import ApiError from "../errors/ApiError";
+import { hasPermission } from "./permissionChecker";
+import { Organization } from "../modules/organization/organization.model";
+import { Project } from "../modules/project/project.model";
 import type { Request } from "express";
 
 // Only plain strings are accepted as identifiers. Express parses `?id[$ne]=`

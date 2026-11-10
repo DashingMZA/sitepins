@@ -1,4 +1,4 @@
-import { OTP_LENGTH } from "@/auth";
+import { OTP_LENGTH } from "../../auth";
 import { z } from "zod";
 
 export const otpSchema = z.object({

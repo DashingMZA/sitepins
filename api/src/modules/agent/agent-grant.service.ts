@@ -1,9 +1,9 @@
-import ApiError from "@/errors/ApiError";
-import { runAgentAccessGuard } from "@/lib/extensionGuards";
-import { nanoId } from "@/lib/nanoId";
-import { requireOrgAccess } from "@/lib/resourceAuth";
-import { Organization } from "@/modules/organization/organization.model";
-import { Project } from "@/modules/project/project.model";
+import ApiError from "../../errors/ApiError";
+import { runAgentAccessGuard } from "../../lib/extensionGuards";
+import { nanoId } from "../../lib/nanoId";
+import { requireOrgAccess } from "../../lib/resourceAuth";
+import { Organization } from "../organization/organization.model";
+import { Project } from "../project/project.model";
 import { AgentGrant } from "./agent-grant.model";
 import { agentTokenIndex, generateAgentToken } from "./agent.auth";
 import { forgetAgents } from "./agent.cache";

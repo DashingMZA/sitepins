@@ -1,8 +1,8 @@
-import { getSessionUserId } from "@/lib/sessionUser";
-import app from "@/app";
-import { allowedOrigins } from "@/config/cors-options";
-import config from "@/config/variables";
-import { initPresenceGateway } from "@/modules/common/presence.gateway";
+import { getSessionUserId } from "./lib/sessionUser";
+import app from "./app";
+import { allowedOrigins } from "./config/cors-options";
+import config from "./config/variables";
+import { initPresenceGateway } from "./modules/common/presence.gateway";
 import { Hocuspocus } from "@hocuspocus/server";
 import http from "http";
 import { Server as IOServer } from "socket.io";
@@ -13,7 +13,7 @@ import { dbConnect } from "./lib/dbConnect";
 import { isOrgMember } from "./lib/orgAccess";
 import { authenticateSocket } from "./lib/socketAuth";
 import { initEditorGateway } from "./modules/common/editor.gateway";
-import { logger } from "@/lib/logger";
+import { logger } from "./lib/logger";
 
 // Collaborative document names are the editor pathname:
 // "/org-<orgId>/<projectId>/…". (localePrefix is "never", so there is no

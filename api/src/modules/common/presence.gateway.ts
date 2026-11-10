@@ -1,4 +1,4 @@
-import { isOrgMember } from "@/lib/orgAccess";
+import { isOrgMember } from "../../lib/orgAccess";
 import { Server as IOServer, Socket } from "socket.io";
 
 type PresenceUser = {

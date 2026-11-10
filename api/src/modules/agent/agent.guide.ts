@@ -1,5 +1,5 @@
-import brand from "@/config/brand";
-import { getRegisteredAgentTools } from "@/lib/agentExtensions";
+import brand from "../../config/brand";
+import { getRegisteredAgentTools } from "../../lib/agentExtensions";
 import { canWrite } from "./agent.tools";
 import {
   AGENT_SCOPE_LABELS,

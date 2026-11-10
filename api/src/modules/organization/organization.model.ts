@@ -1,4 +1,4 @@
-import { ENUM_ROLE_ORG } from "@/enums/roles";
+import { ENUM_ROLE_ORG } from "../../enums/roles";
 import mongoose, { model } from "mongoose";
 import { TOrganizationType } from "./organization.type";
 

@@ -1,13 +1,13 @@
-import { ENUM_PERMISSIONS } from "@/enums/roles";
-import ApiError from "@/errors/ApiError";
-import { runAgentAccessGuard, runPolicyGuard } from "@/lib/extensionGuards";
-import { logger } from "@/lib/logger";
-import { requireOrgPermission } from "@/lib/resourceAuth";
-import { Organization } from "@/modules/organization/organization.model";
-import { organizationService } from "@/modules/organization/organization.service";
-import { TMember } from "@/modules/organization/organization.type";
-import { Project } from "@/modules/project/project.model";
-import { User } from "@/modules/user/user.model";
+import { ENUM_PERMISSIONS } from "../../enums/roles";
+import ApiError from "../../errors/ApiError";
+import { runAgentAccessGuard, runPolicyGuard } from "../../lib/extensionGuards";
+import { logger } from "../../lib/logger";
+import { requireOrgPermission } from "../../lib/resourceAuth";
+import { Organization } from "../organization/organization.model";
+import { organizationService } from "../organization/organization.service";
+import { TMember } from "../organization/organization.type";
+import { Project } from "../project/project.model";
+import { User } from "../user/user.model";
 import { requireScope } from "./agent.auth";
 import { EAgentScope, TAgentContext } from "./agent.type";
 

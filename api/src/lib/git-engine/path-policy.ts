@@ -1,4 +1,4 @@
-import brand from "@/config/brand";
+import brand from "../../config/brand";
 import { GitEngineError } from "./errors";
 
 export type TPathPolicy = {

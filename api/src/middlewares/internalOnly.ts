@@ -1,5 +1,5 @@
-import config from "@/config/variables";
-import ApiError from "@/errors/ApiError";
+import config from "../config/variables";
+import ApiError from "../errors/ApiError";
 import { timingSafeEqual } from "crypto";
 import { NextFunction, Request, Response } from "express";
 

@@ -10,7 +10,7 @@ const { mockConfig, axiosGetMock, isAxiosErrorMock } = vi.hoisted(() => ({
   isAxiosErrorMock: vi.fn(),
 }));
 
-vi.mock("@/config/variables", () => ({ default: mockConfig }));
+vi.mock("../config/variables", () => ({ default: mockConfig }));
 
 vi.mock("axios", () => ({
   default: {

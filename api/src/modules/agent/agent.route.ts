@@ -1,5 +1,5 @@
-import { ENUM_ROLE } from "@/enums/roles";
-import { authMiddleware } from "@/middlewares/authMiddleware";
+import { ENUM_ROLE } from "../../enums/roles";
+import { authMiddleware } from "../../middlewares/authMiddleware";
 import express from "express";
 import { agentErrorHandler, agentGrantController } from "./agent.controller";
 

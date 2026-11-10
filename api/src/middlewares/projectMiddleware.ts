@@ -1,6 +1,6 @@
-import { TOrgRole } from "@/enums/roles";
-import ApiError from "@/errors/ApiError";
-import { requireOrgRole, resolveTargetOrgId } from "@/lib/resourceAuth";
+import { TOrgRole } from "../enums/roles";
+import ApiError from "../errors/ApiError";
+import { requireOrgRole, resolveTargetOrgId } from "../lib/resourceAuth";
 import { RequestHandler } from "express";
 
 export const projectMiddleware = (

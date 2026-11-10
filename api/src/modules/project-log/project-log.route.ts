@@ -1,6 +1,6 @@
-import { ENUM_ROLE, ENUM_ROLE_ORG } from "@/enums/roles";
-import { authMiddleware } from "@/middlewares/authMiddleware";
-import { projectMiddleware } from "@/middlewares/projectMiddleware";
+import { ENUM_ROLE, ENUM_ROLE_ORG } from "../../enums/roles";
+import { authMiddleware } from "../../middlewares/authMiddleware";
+import { projectMiddleware } from "../../middlewares/projectMiddleware";
 import express from "express";
 import { projectLogController } from "./project-log.controller";
 

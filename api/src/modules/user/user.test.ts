@@ -29,7 +29,7 @@ vi.mock("./user.model", () => ({
   },
 }));
 
-vi.mock("@/lib/lifecycleHooks", () => ({
+vi.mock("../../lib/lifecycleHooks", () => ({
   runUserDeletionHooks: (...a: unknown[]) => runUserDeletionHooksMock(...a),
   emitUserUpdate: vi.fn(),
 }));
@@ -91,11 +91,11 @@ vi.mock("../authentication/authentication.model", () => ({
   },
 }));
 
-vi.mock("@/lib/mailer", () => ({
+vi.mock("../../lib/mailer", () => ({
   sendMail: (...a: unknown[]) => sendMailMock(...a),
 }));
 
-vi.mock("@/lib/logger", () => ({
+vi.mock("../../lib/logger", () => ({
   logger: {
     info: vi.fn(),
     warn: vi.fn(),
@@ -109,7 +109,7 @@ const authDeleteUserMock = vi.fn(async (..._a: unknown[]) => ({
 const accountsDeleteManyMock = vi.fn();
 const sessionsDeleteManyMock = vi.fn();
 
-vi.mock("@/auth", () => ({
+vi.mock("../../auth", () => ({
   auth: {
     api: {
       setPassword: vi.fn(),

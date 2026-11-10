@@ -1,5 +1,5 @@
-import ApiError from "@/errors/ApiError";
-import { GitEngineError } from "@/lib/git-engine/errors";
+import ApiError from "../../errors/ApiError";
+import { GitEngineError } from "../../lib/git-engine/errors";
 import { z } from "zod";
 import { measureTool } from "./agent.metrics";
 import { EAgentScope, TAgentContext } from "./agent.type";

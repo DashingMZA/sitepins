@@ -1,5 +1,5 @@
-import brand from "@/config/brand";
-import variables from "@/config/variables";
+import brand from "../config/brand";
+import variables from "../config/variables";
 import jwt, {
   JwtPayload,
   Secret,

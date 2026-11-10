@@ -22,27 +22,27 @@ const chain = (value: () => unknown) => ({
   select: () => ({ lean: async () => value() }),
 });
 
-vi.mock("@/lib/resourceAuth", () => ({
+vi.mock("../../lib/resourceAuth", () => ({
   requireOrgPermission: (...a: unknown[]) => m.requireOrgPermission(...a),
 }));
-vi.mock("@/lib/extensionGuards", () => ({
+vi.mock("../../lib/extensionGuards", () => ({
   runPolicyGuard: (...a: unknown[]) => m.runPolicyGuard(...a),
   runAgentAccessGuard: (...a: unknown[]) => m.runAgentAccessGuard(...a),
 }));
-vi.mock("@/modules/organization/organization.model", () => ({
+vi.mock("../organization/organization.model", () => ({
   Organization: { findOne: () => chain(() => m.org) },
 }));
-vi.mock("@/modules/project/project.model", () => ({
+vi.mock("../project/project.model", () => ({
   Project: { countDocuments: async () => 4 },
 }));
-vi.mock("@/modules/user/user.model", () => ({
+vi.mock("../user/user.model", () => ({
   User: {
     find: () => chain(() => m.users),
     findOne: ({ user_id }: { user_id: string }) =>
       chain(() => m.users.find((u) => u.user_id === user_id) ?? null),
   },
 }));
-vi.mock("@/modules/organization/organization.service", () => ({
+vi.mock("../organization/organization.service", () => ({
   organizationService: {
     addTeamMemberService: (...a: unknown[]) => m.addTeamMemberService(...a),
     updateRoleService: (...a: unknown[]) => m.updateRoleService(...a),

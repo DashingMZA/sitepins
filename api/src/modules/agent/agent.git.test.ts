@@ -1,9 +1,9 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("@/config/variables", () => ({
+vi.mock("../../config/variables", () => ({
   default: { internal_secret: "s3cret" },
 }));
-vi.mock("@/lib/appUrl", () => ({ getAppUrl: () => "http://app.test" }));
+vi.mock("../../lib/appUrl", () => ({ getAppUrl: () => "http://app.test" }));
 
 import { getProjectToken } from "./agent.git";
 

@@ -1,4 +1,4 @@
-import ApiError from "@/errors/ApiError";
+import ApiError from "../../errors/ApiError";
 
 const SPECIAL = /[.+^$()|[\]\\]/;
 

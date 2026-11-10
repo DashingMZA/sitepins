@@ -1,5 +1,5 @@
-import { mapWithConcurrency } from "@/lib/git-engine/http";
-import { TGitClient, TGitFile, TTreeEntry } from "@/lib/git-engine/types";
+import { mapWithConcurrency } from "../../lib/git-engine/http";
+import { TGitClient, TGitFile, TTreeEntry } from "../../lib/git-engine/types";
 import { TAgentContext } from "./agent.type";
 
 type TLruOptions<V> = {

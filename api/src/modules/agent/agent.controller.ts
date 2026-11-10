@@ -1,8 +1,8 @@
-import ApiError from "@/errors/ApiError";
-import catchAsync from "@/lib/catchAsync";
-import { readId } from "@/lib/resourceAuth";
-import { requireUserId } from "@/lib/requireUser";
-import { sendResponse } from "@/lib/sendResponse";
+import ApiError from "../../errors/ApiError";
+import catchAsync from "../../lib/catchAsync";
+import { readId } from "../../lib/resourceAuth";
+import { requireUserId } from "../../lib/requireUser";
+import { sendResponse } from "../../lib/sendResponse";
 import type { ErrorRequestHandler } from "express";
 import { ZodError } from "zod";
 import * as grants from "./agent-grant.service";

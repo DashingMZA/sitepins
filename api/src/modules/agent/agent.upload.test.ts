@@ -1,4 +1,4 @@
-import ApiError from "@/errors/ApiError";
+import ApiError from "../../errors/ApiError";
 import express from "express";
 import type { Server } from "node:http";
 import {
@@ -25,7 +25,7 @@ vi.mock("./agent.service", () => ({
   MAX_UPLOAD_BYTES: 16,
   commitUpload: (...a: unknown[]) => m.commit(...a),
 }));
-vi.mock("@/middlewares/rateLimiters", () => ({
+vi.mock("../../middlewares/rateLimiters", () => ({
   agentLimiter: (_req: unknown, _res: unknown, next: () => void) => next(),
 }));
 

@@ -1,4 +1,4 @@
-import { resolveEnv } from "@/lib/workerEnv";
+import { resolveEnv } from "../lib/workerEnv";
 import dotenv from "dotenv";
 import path from "path";
 

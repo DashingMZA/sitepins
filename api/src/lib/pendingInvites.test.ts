@@ -2,13 +2,13 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const updateManyMock = vi.fn();
 
-vi.mock("@/modules/organization/organization.model", () => ({
+vi.mock("../modules/organization/organization.model", () => ({
   Organization: {
     updateMany: (...args: unknown[]) => updateManyMock(...args),
   },
 }));
 
-vi.mock("@/lib/logger", () => ({
+vi.mock("./logger", () => ({
   logger: { info: vi.fn(), warn: vi.fn(), error: vi.fn() },
 }));
 

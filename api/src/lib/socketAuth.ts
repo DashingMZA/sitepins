@@ -1,6 +1,6 @@
-import { getSessionUserId, getSessionUserRole } from "@/lib/sessionUser";
-import { auth } from "@/auth";
-import { authDemo } from "@/auth-demo";
+import { getSessionUserId, getSessionUserRole } from "./sessionUser";
+import { auth } from "../auth";
+import { authDemo } from "../auth-demo";
 import { fromNodeHeaders } from "better-auth/node";
 import type { Socket } from "socket.io";
 

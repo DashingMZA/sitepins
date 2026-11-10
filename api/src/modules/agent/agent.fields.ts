@@ -1,4 +1,4 @@
-import ApiError from "@/errors/ApiError";
+import ApiError from "../../errors/ApiError";
 import toml from "@ltd/j-toml";
 import YAML from "yaml";
 

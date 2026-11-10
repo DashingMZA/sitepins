@@ -1,5 +1,5 @@
-import { errorMessage } from "@/lib/errorMessage";
-import config from "@/config/variables";
+import { errorMessage } from "./errorMessage";
+import config from "../config/variables";
 import {
   DeleteObjectCommand,
   S3Client,

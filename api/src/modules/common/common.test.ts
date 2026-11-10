@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 // Mocks for Gateway dependencies
 const isOrgMemberMock = vi.fn();
-vi.mock("@/lib/orgAccess", () => ({
+vi.mock("../../lib/orgAccess", () => ({
   isOrgMember: (...args: unknown[]) => isOrgMemberMock(...args),
 }));
 

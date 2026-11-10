@@ -1,4 +1,4 @@
-import { Organization } from "@/modules/organization/organization.model";
+import { Organization } from "../modules/organization/organization.model";
 import { logger } from "./logger";
 import { escapeRegex } from "./regexEscape";
 

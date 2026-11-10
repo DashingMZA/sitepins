@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 const existsMock = vi.fn();
 const nanoIdMock = vi.fn();
 
-vi.mock("@/modules/user/user.model", () => ({
+vi.mock("../modules/user/user.model", () => ({
   User: { exists: (...args: unknown[]) => existsMock(...args) },
 }));
 

@@ -1,6 +1,6 @@
-import { ENUM_ROLE } from "@/enums/roles";
-import { authMiddleware } from "@/middlewares/authMiddleware";
-import { selfOrAdmin } from "@/middlewares/selfOrAdmin";
+import { ENUM_ROLE } from "../../enums/roles";
+import { authMiddleware } from "../../middlewares/authMiddleware";
+import { selfOrAdmin } from "../../middlewares/selfOrAdmin";
 import express from "express";
 import { userPreferenceController } from "./user-preference.controller";
 

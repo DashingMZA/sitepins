@@ -1,10 +1,10 @@
-import { ENUM_ROLE_ORG } from "@/enums/roles";
-import catchAsync from "@/lib/catchAsync";
-import { requireUserId } from "@/lib/requireUser";
-import { readId, requireOrgRole } from "@/lib/resourceAuth";
-import { sendResponse } from "@/lib/sendResponse";
-import { Organization } from "@/modules/organization/organization.model";
-import { Project } from "@/modules/project/project.model";
+import { ENUM_ROLE_ORG } from "../../enums/roles";
+import catchAsync from "../../lib/catchAsync";
+import { requireUserId } from "../../lib/requireUser";
+import { readId, requireOrgRole } from "../../lib/resourceAuth";
+import { sendResponse } from "../../lib/sendResponse";
+import { Organization } from "../organization/organization.model";
+import { Project } from "../project/project.model";
 import { Request, Response } from "express";
 import { gitProviderService } from "./git-provider.service";
 import { TGitProviderType } from "./git-provider.type";

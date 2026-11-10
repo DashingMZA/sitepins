@@ -33,10 +33,10 @@
 
 import { DurableObject } from "cloudflare:workers";
 import { httpServerHandler } from "cloudflare:node";
-import app from "@/app";
-import { dbConnect } from "@/lib/dbConnect";
-import { logger } from "@/lib/logger";
-import { setWorkerEnv } from "@/lib/workerEnv";
+import app from "../app";
+import { dbConnect } from "./dbConnect";
+import { logger } from "./logger";
+import { setWorkerEnv } from "./workerEnv";
 
 export interface SitepinsApiEnv {
   MONGO_URI: string;
@@ -73,9 +73,8 @@ export class ApiDurableObject extends DurableObject<SitepinsApiEnv> {
     }
 
     if (!this.handler) {
-      // `app` is imported statically (same as server.ts) so tsc can resolve
-      // the `@/` alias. Config modules evaluated at import time read
-      // `process.env`, which workerd populates from Worker bindings for
+      // `app` is imported statically (same as server.ts). Config modules
+      // evaluated at import time read `process.env`, which workerd populates from Worker bindings for
       // compatibility dates >= 2025-04-01; `setWorkerEnv(this.env)` above
       // additionally makes the explicit DO env win for anything resolved
       // after this point. The Node entry point (`src/server.ts`, with

@@ -1,6 +1,6 @@
-import brand from "@/config/brand";
-import { getRegisteredAgentTools } from "@/lib/agentExtensions";
-import { TChangesetChange } from "@/lib/git-engine/changeset";
+import brand from "../../config/brand";
+import { getRegisteredAgentTools } from "../../lib/agentExtensions";
+import { TChangesetChange } from "../../lib/git-engine/changeset";
 import { McpServer } from "@modelcontextprotocol/server";
 import { z } from "zod";
 import { buildInstructions, EGuideTopic, getGuide } from "./agent.guide";

@@ -7,7 +7,7 @@ const aggregateMock = vi.fn();
 const userFindOneMock = vi.fn();
 const sendMailMock = vi.fn();
 
-vi.mock("@/modules/organization/organization.model", () => ({
+vi.mock("./organization.model", () => ({
   Organization: {
     findOne: (...args: unknown[]) => findOneMock(...args),
     findOneAndUpdate: (...args: unknown[]) => findOneAndUpdateMock(...args),
@@ -15,17 +15,17 @@ vi.mock("@/modules/organization/organization.model", () => ({
   },
 }));
 
-vi.mock("@/modules/user/user.model", () => ({
+vi.mock("../user/user.model", () => ({
   User: {
     findOne: (...args: unknown[]) => userFindOneMock(...args),
   },
 }));
 
-vi.mock("@/lib/mailer", () => ({
+vi.mock("../../lib/mailer", () => ({
   sendMail: (...args: unknown[]) => sendMailMock(...args),
 }));
 
-vi.mock("@/lib/logger", () => ({
+vi.mock("../../lib/logger", () => ({
   logger: {
     info: vi.fn(),
     warn: vi.fn(),

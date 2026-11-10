@@ -1,8 +1,8 @@
-import { ENUM_ROLE, ENUM_ROLE_ORG } from "@/enums/roles";
-import { authMiddleware } from "@/middlewares/authMiddleware";
-import { runRequestGuard } from "@/lib/extensionGuards";
-import { moveProjectMiddleware } from "@/middlewares/moveProjectMiddleware";
-import { projectMiddleware } from "@/middlewares/projectMiddleware";
+import { ENUM_ROLE, ENUM_ROLE_ORG } from "../../enums/roles";
+import { authMiddleware } from "../../middlewares/authMiddleware";
+import { runRequestGuard } from "../../lib/extensionGuards";
+import { moveProjectMiddleware } from "../../middlewares/moveProjectMiddleware";
+import { projectMiddleware } from "../../middlewares/projectMiddleware";
 import express from "express";
 import { projectController } from "./project.controller";
 

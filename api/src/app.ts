@@ -1,9 +1,9 @@
-import brand from "@/config/brand";
-import config from "@/config/variables";
-import { globalErrorhandler } from "@/middlewares/globalErrorHandler";
-import { apiLimiter } from "@/middlewares/rateLimiters";
-import { sanitizeInput } from "@/middlewares/sanitizeInput";
-import router from "@/routes";
+import brand from "./config/brand";
+import config from "./config/variables";
+import { globalErrorhandler } from "./middlewares/globalErrorHandler";
+import { apiLimiter } from "./middlewares/rateLimiters";
+import { sanitizeInput } from "./middlewares/sanitizeInput";
+import router from "./routes";
 import { toNodeHandler } from "better-auth/node";
 import cors from "cors";
 import express, { Application, NextFunction, Request, Response } from "express";

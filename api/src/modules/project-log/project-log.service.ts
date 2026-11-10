@@ -1,5 +1,5 @@
-import { paginationHelpers } from "@/lib/paginationHelper";
-import { TPagination } from "@/types";
+import { paginationHelpers } from "../../lib/paginationHelper";
+import { TPagination } from "../../types";
 import { PipelineStage } from "mongoose";
 import { ProjectLog } from "./project-log.model";
 import { TProjectLogType } from "./project-log.type";

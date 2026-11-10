@@ -1,11 +1,11 @@
 import {
   decorateProject,
   runProjectMutationGuard,
-} from "@/lib/extensionGuards";
-import { paginationHelpers } from "@/lib/paginationHelper";
-import { escapeRegex } from "@/lib/regexEscape";
-import { deleteFile } from "@/lib/s3-utils";
-import { TPagination } from "@/types";
+} from "../../lib/extensionGuards";
+import { paginationHelpers } from "../../lib/paginationHelper";
+import { escapeRegex } from "../../lib/regexEscape";
+import { deleteFile } from "../../lib/s3-utils";
+import { TPagination } from "../../types";
 import type { QueryFilter, UpdateQuery } from "mongoose";
 import { PipelineStage } from "mongoose";
 import { Organization } from "../organization/organization.model";

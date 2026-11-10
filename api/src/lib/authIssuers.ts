@@ -1,5 +1,5 @@
-import brand from "@/config/brand";
-import config from "@/config/variables";
+import brand from "../config/brand";
+import config from "../config/variables";
 import type { JwtPayload } from "jsonwebtoken";
 
 // JWT secrets/issuers accepted for bearer-token auth (non-session requests).

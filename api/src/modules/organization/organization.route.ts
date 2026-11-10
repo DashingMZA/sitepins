@@ -1,7 +1,7 @@
-import { ENUM_PERMISSIONS, ENUM_ROLE } from "@/enums/roles";
-import { authMiddleware } from "@/middlewares/authMiddleware";
-import { runRequestGuard } from "@/lib/extensionGuards";
-import orgMiddleware from "@/middlewares/orgMiddleware";
+import { ENUM_PERMISSIONS, ENUM_ROLE } from "../../enums/roles";
+import { authMiddleware } from "../../middlewares/authMiddleware";
+import { runRequestGuard } from "../../lib/extensionGuards";
+import orgMiddleware from "../../middlewares/orgMiddleware";
 import express from "express";
 import { organizationController } from "./organization.controller";
 

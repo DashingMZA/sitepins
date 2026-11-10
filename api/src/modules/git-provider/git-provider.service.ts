@@ -1,4 +1,4 @@
-import { decrypt, encrypt, tokenIndex } from "@/lib/encrypt";
+import { decrypt, encrypt, tokenIndex } from "../../lib/encrypt";
 import { ClientSession } from "mongoose";
 import { GitProvider } from "./git-provider.model";
 import { TGitProviderType } from "./git-provider.type";

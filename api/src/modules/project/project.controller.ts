@@ -1,9 +1,9 @@
-import { ENUM_ROLE } from "@/enums/roles";
-import ApiError from "@/errors/ApiError";
-import catchAsync from "@/lib/catchAsync";
-import { nanoId } from "@/lib/nanoId";
-import { requireUser } from "@/lib/requireUser";
-import { sendResponse } from "@/lib/sendResponse";
+import { ENUM_ROLE } from "../../enums/roles";
+import ApiError from "../../errors/ApiError";
+import catchAsync from "../../lib/catchAsync";
+import { nanoId } from "../../lib/nanoId";
+import { requireUser } from "../../lib/requireUser";
+import { sendResponse } from "../../lib/sendResponse";
 import { Request, Response } from "express";
 import { Organization } from "../organization/organization.model";
 import { projectService } from "./project.service";
