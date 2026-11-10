@@ -27,7 +27,7 @@
 # APP_URL=http://localhost:3000
 # CORS_ORIGINS=http://localhost:3000
 # COOKIE_DOMAIN=
-# S3_ENDPOINT=https://<account-id>.r2.cloudflarestorage.com
+# S3_ENDPOINT=https://b47987832efb7c85f4d5ec99f95048c1.r2.cloudflarestorage.com
 # S3_REGION=auto
 # MAIL_PROVIDER=resend
 # REQUIRE_EMAIL_VERIFICATION=false
