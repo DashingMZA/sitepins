@@ -39,7 +39,11 @@ const MAX_ALLOWED_ATTEMPTS = 3; // max wrong attempts before invalidating the ot
 let authConnection: mongoose.Connection | null = null;
 
 export function getAuthConnection(): mongoose.Connection {
-  if (!authConnection) {
+  // A failed connection stays cached as a dead object (readyState 0) — one
+  // transient failure (e.g. a TLS alert while Atlas was still deploying an
+  // allowlist change) would then break auth for the lifetime of the
+  // instance with "Topology is closed". Drop it so the next call retries.
+  if (!authConnection || authConnection.readyState === 0) {
     const uri = resolveEnv("MONGO_URI");
     if (!uri) {
       throw new Error(

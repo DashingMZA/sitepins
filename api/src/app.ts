@@ -9,6 +9,8 @@ import express, { Application, NextFunction, Request, Response } from "express";
 import helmet from "helmet";
 import { getAuth } from "./auth";
 import { getAuthDemo } from "./auth-demo";
+import { dbConnect } from "./lib/dbConnect";
+import { logger } from "./lib/logger";
 import {
   corsProtectedOptions,
   corsUnprotectedOptions,
@@ -55,6 +57,21 @@ const conditionalCors = (req: Request, res: Response, next: NextFunction) => {
 };
 
 app.use(conditionalCors);
+
+// Vercel's Express preset serves this app directly without startServer(),
+// so the default Mongoose connection would never open and every model query
+// (User.findOne, ...) buffers 10s then times out ("buffering timed out").
+// Kick the connection off on each request; dbConnect() is idempotent and
+// returns immediately once connected, and model operations buffer briefly
+// until the first connect finishes. Never block the request on it —
+// /healthz must stay fast, and a down database must not hang every request
+// for the 30s server-selection timeout.
+app.use((_req, _res, next) => {
+  void dbConnect().catch((err) => {
+    logger.warn("Background MongoDB connect failed", err);
+  });
+  next();
+});
 
 // must place better auth handlers before express.json()
 type AuthRequestHandler = (req: Request, res: Response) => unknown;
