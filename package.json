@@ -5,7 +5,7 @@
   "description": "Sitepins — open-source git-based CMS",
   "packageManager": "pnpm@12.15.0",
   "engines": {
-    "node": ">=22"
+    "node": ">=24"
   },
   "scripts": {
     "dev": "pnpm --parallel --filter ./app --filter ./api dev",
