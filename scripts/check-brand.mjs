@@ -37,11 +37,17 @@ const ALLOWED = [
   /User-Agent["']?\s*[:,]\s*["'`]sitepins/i,
   /'User-Agent':'sitepins-sandbox'/,
   // code identifiers (not output)
-  /\b(getSitepinsManifest|sitepinsManifest|SITEPINS_GENERATOR)\b/,
+  /\b(getSitepinsManifest|sitepinsManifest|SITEPINS_GENERATOR|SitepinsApiEnv)\b/,
+  // Cloudflare Worker identifiers: R2 binding name and Worker names used
+  // in the /healthz machine response — infrastructure names, never UI brand
+  /\bSITEPINS_BUCKET\b/,
+  /["'`]sitepins-(api|realtime)["'`]/,
   // HMAC domain separator for signed values
   /`sitepins-\$\{purpose\}:/,
   // hosted demo cookie domain, overridable with DEMO_COOKIE_DOMAIN
-  /DEMO_COOKIE_DOMAIN \|\| "\.sitepins\.com"/,
+  // (matches both `process.env.DEMO_COOKIE_DOMAIN || ...` and
+  // `resolveEnv("DEMO_COOKIE_DOMAIN") || ...`)
+  /DEMO_COOKIE_DOMAIN["']?\)?\s*\|\|\s*"\.sitepins\.com"/,
 ];
 
 const BRAND = /sitepins/i;

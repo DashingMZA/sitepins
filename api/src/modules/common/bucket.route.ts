@@ -81,55 +81,73 @@ function buildObjectKey(
 //   ACLs, so `permission` is validated but not applied; the bucket must be
 //   public (r2.dev or a custom domain) for NEXT_PUBLIC_BUCKET_URL to serve
 //   the object, which is how the app consumes uploads.
-const uploadFile = isWorkerRuntime()
-  ? multer({
-      limits: { fileSize: MAX_UPLOAD_BYTES, files: 1 },
-      fileFilter: (_req, file, cb) => {
-        if (!ALLOWED_MIME.has(file.mimetype)) {
-          return cb(new Error("Unsupported file type. Images only."));
-        }
-        cb(null, true);
-      },
-      storage: multer.memoryStorage(),
-    })
-  : multer({
-      limits: { fileSize: MAX_UPLOAD_BYTES, files: 1 },
-      fileFilter: (req, file, cb) => {
-        if (!ALLOWED_MIME.has(file.mimetype)) {
-          return cb(new Error("Unsupported file type. Images only."));
-        }
-        cb(null, true);
-      },
-      storage: multerS3({
-        // multer-s3 pins an older @aws-sdk/client-s3 major than the one we use.
-        s3: s3Client as unknown as NonNullable<
-          Parameters<typeof multerS3>[0]
-        >["s3"],
-        bucket: config.s3_bucket_name as string,
-        contentType: multerS3.AUTO_CONTENT_TYPE,
-        contentDisposition: function (req, file, cb) {
-          cb(
-            null,
-            INLINE_UNSAFE_MIME.has(file.mimetype) ? "attachment" : "inline",
-          );
-        },
-        acl: function (req, file, cb) {
-          const permission = uploadBody(req).permission;
-          if (permission === "public-read" || permission === "private") {
-            cb(null, permission);
-          } else {
-            cb(new Error("Invalid ACL type specified"));
+//
+// Lazy: built on the first upload, NOT at import time. multer-s3 throws
+// "bucket is required" when constructed without a bucket, so building it
+// at import crashed the whole API on startup whenever S3_BUCKET_NAME was
+// missing — even if nobody ever uploaded. Now the API boots fine and only
+// /upload reports the missing config, with a message that says where to
+// fix it.
+let uploadFile: ReturnType<typeof multer> | null = null;
+
+function getUploadFile() {
+  if (uploadFile) return uploadFile;
+  if (!isWorkerRuntime() && !config.s3_bucket_name) {
+    throw new Error(
+      "S3_BUCKET_NAME is not set — add it to api/.env (e.g. my-media-bucket) and restart the API.",
+    );
+  }
+  uploadFile = isWorkerRuntime()
+    ? multer({
+        limits: { fileSize: MAX_UPLOAD_BYTES, files: 1 },
+        fileFilter: (_req, file, cb) => {
+          if (!ALLOWED_MIME.has(file.mimetype)) {
+            return cb(new Error("Unsupported file type. Images only."));
           }
+          cb(null, true);
         },
-        key: function (req: express.Request, file, cb) {
-          try {
-            cb(null, buildObjectKey(req, file));
-          } catch (err) {
-            cb(err as Error);
+        storage: multer.memoryStorage(),
+      })
+    : multer({
+        limits: { fileSize: MAX_UPLOAD_BYTES, files: 1 },
+        fileFilter: (req, file, cb) => {
+          if (!ALLOWED_MIME.has(file.mimetype)) {
+            return cb(new Error("Unsupported file type. Images only."));
           }
+          cb(null, true);
         },
-      }),
-    });
+        storage: multerS3({
+          // multer-s3 pins an older @aws-sdk/client-s3 major than the one we use.
+          s3: s3Client as unknown as NonNullable<
+            Parameters<typeof multerS3>[0]
+          >["s3"],
+          bucket: config.s3_bucket_name as string,
+          contentType: multerS3.AUTO_CONTENT_TYPE,
+          contentDisposition: function (req, file, cb) {
+            cb(
+              null,
+              INLINE_UNSAFE_MIME.has(file.mimetype) ? "attachment" : "inline",
+            );
+          },
+          acl: function (req, file, cb) {
+            const permission = uploadBody(req).permission;
+            if (permission === "public-read" || permission === "private") {
+              cb(null, permission);
+            } else {
+              cb(new Error("Invalid ACL type specified"));
+            }
+          },
+          key: function (req: express.Request, file, cb) {
+            try {
+              cb(null, buildObjectKey(req, file));
+            } catch (err) {
+              cb(err as Error);
+            }
+          },
+        }),
+      });
+  return uploadFile;
+}
 
 // upload router
 bucketRouter.post(
@@ -141,7 +159,12 @@ bucketRouter.post(
   ),
   uploadLimiter,
   (req, res, next) => {
-    const uploadSingle = uploadFile.single("file");
+    let uploadSingle: ReturnType<ReturnType<typeof multer>["single"]>;
+    try {
+      uploadSingle = getUploadFile().single("file");
+    } catch (err) {
+      return next(err);
+    }
 
     uploadSingle(req, res, (err) => {
       if (err) {
