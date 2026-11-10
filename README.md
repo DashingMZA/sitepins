@@ -6,10 +6,10 @@
 
 Connect your GitHub or GitLab repo and start editing. Sitepins reads your content structure and builds the editor for you. No schema to define. No config file to write. Every save is a real Git commit.
 
-[**Live Demo**](https://demo.sitepins.com) · [**Documentation**](https://docs.sitepins.com) · [**Try Cloud Version for Free**](https://sitepins.com/pricing?ref=github)
+[**Live Demo**](https://csofts.tech) · [**Documentation**](https://docs.sitepins.com) · [**Try Cloud Version for Free**](https://csofts.tech.com/pricing?ref=github)
 
 ![License](https://img.shields.io/badge/license-AGPL%20v3-2b7489)
-![Stars](https://img.shields.io/github/stars/sitepins/sitepins?style=social)
+![Stars](https://img.shields.io/github/stars/DashingMZA/sitepins?style=social)
 
 <img width="1920" height="929" alt="sitepins" src="https://github.com/user-attachments/assets/64da6a53-cf84-4baf-b731-d83cdaee493a" />
 
@@ -135,7 +135,7 @@ Astro · Next.js · Hugo · TanStack Start · Nuxt · Svelte · Eleventy · Jeky
 
 Skip the setup. Connect a repo and start editing in minutes.
 
-[**Start for free**](https://sitepins.com/pricing?ref=github)
+[**Start for free**](https://csofts.tech/pricing?ref=github)
 
 ### Self-host Sitepins
 
@@ -151,7 +151,7 @@ cp api/.env.example api/.env
 cp app/.env.example app/.env
 ```
 
-Fill in each `.env`. See [app/README.md](https://github.com/sitepins/sitepins/blob/main/app/README.md#environment-variables) and [api/README.md](https://github.com/sitepins/sitepins/blob/main/api/README.md#environment-variables) for what every variable does and how to obtain it. The one shared step is media storage, covered below.
+Fill in each `.env`. See [app/README.md](https://github.com/DashingMZA/sitepins/blob/main/app/README.md#environment-variables) and [api/README.md](https://github.com/DashingMZA/sitepins/blob/main/api/README.md#environment-variables) for what every variable does and how to obtain it. The one shared step is media storage, covered below.
 
 ```bash
 # run backend and frontend together
@@ -186,23 +186,23 @@ api/   # Express + MongoDB backend: auth, orgs, projects, git providers
 ## Documentation
 
 - **Full docs:** [docs.sitepins.com](https://docs.sitepins.com)
-- [app/README.md](https://github.com/sitepins/sitepins/blob/main/app/README.md): frontend stack, folder structure, env vars, scripts, GitHub and GitLab app setup.
-- [api/README.md](https://github.com/sitepins/sitepins/blob/main/api/README.md): backend stack, module structure, env vars, scripts, secret generation, extension points.
+- [app/README.md](https://github.com/DashingMZA/sitepins/blob/main/app/README.md): frontend stack, folder structure, env vars, scripts, GitHub and GitLab app setup.
+- [api/README.md](https://github.com/DashingMZA/sitepins/blob/main/api/README.md): backend stack, module structure, env vars, scripts, secret generation, extension points.
 
 ## Contributing
 
-Contributions are welcome. See [CONTRIBUTING.md](https://github.com/sitepins/sitepins/blob/main/CONTRIBUTING.md). Please report security issues privately per [SECURITY.md](https://github.com/sitepins/sitepins/blob/main/SECURITY.md).
+Contributions are welcome. See [CONTRIBUTING.md](https://github.com/DashingMZA/sitepins/blob/main/CONTRIBUTING.md). Please report security issues privately per [SECURITY.md](https://github.com/DashingMZA/sitepins/blob/main/SECURITY.md).
 
 ## License
 
-[GNU AGPLv3](https://github.com/sitepins/sitepins/blob/main/LICENSE). Free to use, modify, and self-host. If you run a modified version as a network service, you must make your modified source available to its users under the same license.
+[GNU AGPLv3](https://github.com/DashingMZA/sitepins/blob/main/LICENSE). Free to use, modify, and self-host. If you run a modified version as a network service, you must make your modified source available to its users under the same license.
 
 ---
 
 <div align="center">
 
-If Sitepins saves you a round of content edits, [**star the repo**](https://github.com/sitepins/sitepins) so more people find it.
+If Sitepins saves you a round of content edits, [**star the repo**](https://github.com/DashingMZA/sitepins) so more people find it.
 
-[Website](https://sitepins.com) · [Docs](https://docs.sitepins.com) · [Demo](https://demo.sitepins.com) · [X (Twitter)](https://x.com/sitepinscms) · [Join Discord Community](https://discord.gg/UDhCe68qy)
+[Website](https://csofts.tech) · [Docs](https://docs.sitepins.com) · [Demo](https://csofts.tech) · [X (Twitter)](https://x.com/sitepinscms) · [Join Discord Community](https://discord.gg/UDhCe68qy)
 
 </div>
