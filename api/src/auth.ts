@@ -1,10 +1,6 @@
 import brand from "./config/brand";
 import config from "./config/variables";
 import bcrypt from "bcryptjs";
-import { betterAuth } from "better-auth";
-import { mongodbAdapter } from "better-auth/adapters/mongodb";
-import { APIError, createAuthMiddleware } from "better-auth/api";
-import { customSession, emailOTP } from "better-auth/plugins";
 import mongoose from "mongoose";
 import { allowedOrigins } from "./config/cors-options";
 import { getAppUrl } from "./lib/appUrl";
@@ -127,8 +123,16 @@ if (!config.better_auth_secret) {
 
 const appUrl = getAppUrl();
 
-const createAuthInstance = () =>
-  betterAuth({
+const createAuthInstance = async () => {
+  // better-auth is ESM-only: a static import becomes require() in the
+  // CommonJS emit, which Vercel's function loader cannot resolve
+  // (ERR_REQUIRE_ESM). Load it lazily via dynamic import — the same pattern
+  // this codebase already uses for nanoid and nodemailer.
+  const { betterAuth } = await import("better-auth");
+  const { mongodbAdapter } = await import("better-auth/adapters/mongodb");
+  const { APIError, createAuthMiddleware } = await import("better-auth/api");
+  const { customSession, emailOTP } = await import("better-auth/plugins");
+  return betterAuth({
     basePath: "/api/v1/auth",
     baseURL: resolveEnv("BASE_URL"),
     secret: config.better_auth_secret,
@@ -624,33 +628,19 @@ const createAuthInstance = () =>
       }),
     ],
   });
-
-let _auth: ReturnType<typeof createAuthInstance> | null = null;
-export const getAuth = (): ReturnType<typeof createAuthInstance> => {
-  if (!_auth) {
-    _auth = createAuthInstance();
-  }
-  return _auth;
 };
 
-export const auth = new Proxy({} as ReturnType<typeof createAuthInstance>, {
-  get(_target, prop) {
-    const instance = getAuth();
-    const val = Reflect.get(instance, prop);
-    if (typeof val === "function") {
-      return val.bind(instance);
-    }
-    return val;
-  },
-  has(_target, prop) {
-    return Reflect.has(getAuth(), prop);
-  },
-  ownKeys(_target) {
-    return Reflect.ownKeys(getAuth());
-  },
-  getOwnPropertyDescriptor(_target, prop) {
-    return Reflect.getOwnPropertyDescriptor(getAuth(), prop);
-  },
-});
+export type AuthInstance = Awaited<ReturnType<typeof createAuthInstance>>;
 
-export type Session = typeof auth.$Infer.Session;
+// The auth instance is created lazily AND asynchronously: better-auth is
+// ESM-only, so it must be loaded via dynamic import (see createAuthInstance).
+// The cached promise keeps exactly one instance per process/isolate.
+let _authPromise: Promise<AuthInstance> | null = null;
+export const getAuth = (): Promise<AuthInstance> => {
+  if (!_authPromise) {
+    _authPromise = createAuthInstance();
+  }
+  return _authPromise;
+};
+
+export type Session = AuthInstance["$Infer"]["Session"];

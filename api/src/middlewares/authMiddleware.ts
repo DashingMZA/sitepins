@@ -1,12 +1,11 @@
-import { auth, Session } from "../auth";
-import { authDemo } from "../auth-demo";
+import { getAuth, type Session } from "../auth";
+import { getAuthDemo } from "../auth-demo";
 import config from "../config/variables";
 import { ENUM_ROLE, ENUM_ROLE_ORG } from "../enums/roles";
 import { getJwtIssuers } from "../lib/authIssuers";
 import ApiError from "../errors/ApiError";
 import { jwtHelpers } from "../lib/jwtTokenHelper";
 import { HttpStatusCode } from "axios";
-import { fromNodeHeaders } from "better-auth/node";
 import { NextFunction, Request, Response } from "express";
 import { JwtPayload, Secret } from "jsonwebtoken";
 
@@ -25,7 +24,9 @@ class AuthMiddleware {
         // Only honor the demo session context when demo mode is enabled.
         const isDemo = config.demo_mode && headers["x-app-context"] === "demo";
 
-        const sessionAuth = isDemo ? authDemo : auth;
+        const sessionAuth = isDemo ? await getAuthDemo() : await getAuth();
+        // better-auth is ESM-only — dynamic import (see auth.ts).
+        const { fromNodeHeaders } = await import("better-auth/node");
         session = (await sessionAuth.api.getSession({
           headers: fromNodeHeaders(req.headers),
         })) as Session | null;

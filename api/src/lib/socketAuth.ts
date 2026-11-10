@@ -1,7 +1,6 @@
 import { getSessionUserId, getSessionUserRole } from "./sessionUser";
-import { auth } from "../auth";
-import { authDemo } from "../auth-demo";
-import { fromNodeHeaders } from "better-auth/node";
+import { getAuth } from "../auth";
+import { getAuthDemo } from "../auth-demo";
 import type { Socket } from "socket.io";
 
 export type SocketUser = {
@@ -29,14 +28,20 @@ export async function authenticateSocket(
   next: (err?: Error) => void,
 ): Promise<void> {
   try {
+    // better-auth is ESM-only — dynamic import (see auth.ts).
+    const { fromNodeHeaders } = await import("better-auth/node");
     const nodeHeaders = fromNodeHeaders(socket.handshake.headers);
 
     // The regular app and the demo app use different session cookies. The
     // socket handshake doesn't tell us which, so try both issuers and accept
     // whichever produces a valid session.
-    let session = await auth.api.getSession({ headers: nodeHeaders });
+    let session = await (await getAuth()).api.getSession({
+      headers: nodeHeaders,
+    });
     if (!getSessionUserId(session)) {
-      session = await authDemo.api.getSession({ headers: nodeHeaders });
+      session = await (await getAuthDemo()).api.getSession({
+        headers: nodeHeaders,
+      });
     }
 
     const userId = getSessionUserId(session);

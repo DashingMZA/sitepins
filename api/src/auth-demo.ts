@@ -1,9 +1,6 @@
 import brand from "./config/brand";
 import config from "./config/variables";
 import bcrypt from "bcryptjs";
-import { betterAuth } from "better-auth";
-import { mongodbAdapter } from "better-auth/adapters/mongodb";
-import { customSession } from "better-auth/plugins";
 import { getAuthClient, getAuthDb } from "./auth";
 import { allowedOrigins } from "./config/cors-options";
 import { reconcilePendingInvites } from "./lib/pendingInvites";
@@ -12,8 +9,12 @@ import { logger } from "./lib/logger";
 import { resolveEnv } from "./lib/workerEnv";
 import { organizationService } from "./modules/organization/organization.service";
 
-const createAuthDemoInstance = () =>
-  betterAuth({
+const createAuthDemoInstance = async () => {
+  // better-auth is ESM-only — dynamic import (see auth.ts).
+  const { betterAuth } = await import("better-auth");
+  const { mongodbAdapter } = await import("better-auth/adapters/mongodb");
+  const { customSession } = await import("better-auth/plugins");
+  return betterAuth({
     basePath: "/api/v1/demo/auth",
     baseURL: resolveEnv("BASE_URL"),
     secret: config.better_auth_secret,
@@ -163,34 +164,17 @@ const createAuthDemoInstance = () =>
       }),
     ],
   });
-
-let _authDemo: ReturnType<typeof createAuthDemoInstance> | null = null;
-export const getAuthDemo = (): ReturnType<typeof createAuthDemoInstance> => {
-  if (!_authDemo) {
-    _authDemo = createAuthDemoInstance();
-  }
-  return _authDemo;
 };
 
-export const authDemo = new Proxy(
-  {} as ReturnType<typeof createAuthDemoInstance>,
-  {
-    get(_target, prop) {
-      const instance = getAuthDemo();
-      const val = Reflect.get(instance, prop);
-      if (typeof val === "function") {
-        return val.bind(instance);
-      }
-      return val;
-    },
-    has(_target, prop) {
-      return Reflect.has(getAuthDemo(), prop);
-    },
-    ownKeys(_target) {
-      return Reflect.ownKeys(getAuthDemo());
-    },
-    getOwnPropertyDescriptor(_target, prop) {
-      return Reflect.getOwnPropertyDescriptor(getAuthDemo(), prop);
-    },
-  },
-);
+export type AuthDemoInstance = Awaited<
+  ReturnType<typeof createAuthDemoInstance>
+>;
+
+// Lazily AND asynchronously created — see getAuth in auth.ts.
+let _authDemoPromise: Promise<AuthDemoInstance> | null = null;
+export const getAuthDemo = (): Promise<AuthDemoInstance> => {
+  if (!_authDemoPromise) {
+    _authDemoPromise = createAuthDemoInstance();
+  }
+  return _authDemoPromise;
+};

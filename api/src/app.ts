@@ -4,7 +4,6 @@ import { globalErrorhandler } from "./middlewares/globalErrorHandler";
 import { apiLimiter } from "./middlewares/rateLimiters";
 import { sanitizeInput } from "./middlewares/sanitizeInput";
 import router from "./routes";
-import { toNodeHandler } from "better-auth/node";
 import cors from "cors";
 import express, { Application, NextFunction, Request, Response } from "express";
 import helmet from "helmet";
@@ -58,19 +57,23 @@ const conditionalCors = (req: Request, res: Response, next: NextFunction) => {
 app.use(conditionalCors);
 
 // must place better auth handlers before express.json()
-let authHandler: ReturnType<typeof toNodeHandler> | null = null;
-app.all("/api/v1/auth/*splat", (req, res) => {
+type AuthRequestHandler = (req: Request, res: Response) => unknown;
+let authHandler: AuthRequestHandler | null = null;
+app.all("/api/v1/auth/*splat", async (req, res) => {
   if (!authHandler) {
-    authHandler = toNodeHandler(getAuth());
+    // better-auth is ESM-only — dynamic import (see auth.ts).
+    const { toNodeHandler } = await import("better-auth/node");
+    authHandler = toNodeHandler(await getAuth());
   }
   return authHandler(req, res);
 });
 // Demo auth is an anonymous-signup surface — only mount it when DEMO_MODE is on.
 if (config.demo_mode) {
-  let authDemoHandler: ReturnType<typeof toNodeHandler> | null = null;
-  app.all("/api/v1/demo/auth/*splat", (req, res) => {
+  let authDemoHandler: AuthRequestHandler | null = null;
+  app.all("/api/v1/demo/auth/*splat", async (req, res) => {
     if (!authDemoHandler) {
-      authDemoHandler = toNodeHandler(getAuthDemo());
+      const { toNodeHandler } = await import("better-auth/node");
+      authDemoHandler = toNodeHandler(await getAuthDemo());
     }
     return authDemoHandler(req, res);
   });

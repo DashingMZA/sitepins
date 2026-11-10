@@ -1,9 +1,8 @@
-import { auth } from "../../auth";
+import { getAuth } from "../../auth";
 import { emitUserUpdate } from "../../lib/lifecycleHooks";
 import { logger } from "../../lib/logger";
 import { sendMail } from "../../lib/mailer";
 import { requireUser } from "../../lib/requireUser";
-import { fromNodeHeaders } from "better-auth/node";
 import { Request } from "express";
 import mongoose from "mongoose";
 import { purgeUserData } from "./user.deletion";
@@ -71,7 +70,9 @@ const updateUserCountryService = async (id: string, country: string) => {
 // set password
 const setPasswordService = async (req: Request) => {
   const newPassword = req.body.newPassword;
-  const response = await auth.api.setPassword({
+  // better-auth is ESM-only — dynamic import (see auth.ts).
+  const { fromNodeHeaders } = await import("better-auth/node");
+  const response = await (await getAuth()).api.setPassword({
     body: { newPassword },
     headers: fromNodeHeaders(req.headers),
   });
