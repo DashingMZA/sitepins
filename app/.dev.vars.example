@@ -16,7 +16,7 @@
 # NEXT_PUBLIC_BRAND_URL=https://csofts.tech
 # NEXT_PUBLIC_BRAND_NAME=Sitepins
 # NEXT_PUBLIC_BRAND_SLUG=sitepins
-# NEXT_PUBLIC_BUCKET_URL=https://<bucket>.r2.dev
+# NEXT_PUBLIC_BUCKET_URL=https://media.csofts.tech
 # NEXT_PUBLIC_GIT_APP_NAME=<GitHub App slug>
 # NEXT_PUBLIC_GITLAB_CLIENT_ID=
 #

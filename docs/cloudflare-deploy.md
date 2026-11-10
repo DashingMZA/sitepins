@@ -193,7 +193,7 @@ one later requires a rebuild + redeploy.
 | `NEXT_PUBLIC_HP_WS_URL` | `wss://api.csofts.tech/api/v1/editor/collab` |
 | `NEXT_PUBLIC_BRAND_URL` | `https://csofts.tech` |
 | `NEXT_PUBLIC_BRAND_NAME` / `NEXT_PUBLIC_BRAND_SLUG` | `Sitepins` / `sitepins` |
-| `NEXT_PUBLIC_BUCKET_URL` | R2 public URL, e.g. `https://sitepins-media.r2.dev` |
+| `NEXT_PUBLIC_BUCKET_URL` | R2 public URL, e.g. `https://media.csofts.tech` |
 | `NEXT_PUBLIC_GIT_APP_NAME` | GitHub App slug (**required, non-empty** — the build throws without it) |
 | `NEXT_PUBLIC_GITLAB_CLIENT_ID` | optional |
 | other `NEXT_PUBLIC_*` brand/link vars | see `app/.env.example` / `app/wrangler.jsonc` |
